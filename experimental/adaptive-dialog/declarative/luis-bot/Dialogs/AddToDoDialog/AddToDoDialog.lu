@@ -1,53 +1,103 @@
-﻿# Add todo [trigger intent]
+﻿> Add todo needs an item title of the todo and a ListType. 
+> List type can be 'todo' or 'shopping' or 'grocery'
+
+> Trigger intent for add todo
+# Add todo [trigger intent]
+- add
 - Add todo
-- add a to do item
-> Add some patterns
-- Please remember [to] {todoTitle_patternAny}
-- I need you to remember [that] {todoTitle_patternAny}
-- Add a todo named {todoTitle_patternAny}
-- Add {todoTitle_patternAny} to the [todo] list
-- Add {todoTitle_patternAny} to [my] todo
-- Please remind me to {todoTitle=buy milk}
-- Please remember that I need to {todoTitle=buy milk}
-- I need you to remember that {todoTitle=my wife's birthday is Jan 9th}
-- Add a todo named {todoTitle=send report over this weekend}
-- Add {todoTitle=get a new car} to the todo list
-- Add {todoTitle=write a spec} to the list
-- Add {todoTitle=finish this demo} to my todo list
 - add another one
 - add another todo
+- add a to do item
+- add an item to the grocery list
+- add {itemTitle=buy fruits and vegetables} to my shopping list
+- add {itemTitle=get a haircut} to my tasks
+- Please remind me to {itemTitle=buy milk}
+- Please remember that I need to {itemTitle=buy milk}
+- I need you to remember that {itemTitle=my wife's birthday is Jan 9th}
+- Add a todo named {itemTitle=send report over this weekend}
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo {itemTitle=wrap up coding by tonight}
+- would you add {itemTitle=heavy cream} to the shopping list?
+- can you please add {itemTitle=milk} to the grocery list?
+> Add some patterns
+- Please remember [to] {itemTitle}
+- I need you to remember [that] {itemTitle}
+- (Add|create) a todo named {itemTitle}
+- (Add|create) {itemTitle} to the [todo] list
+- (Add|create) {itemTitle} to [my] todo
+- (Add|create) a todo (titled|called|with title) {itemTitle}
+- (Add|create) a todo with ["]{itemTitle}["] [as the title]
+- (Add|create) {itemTitle} to [my] {listType}
+
+$ listType : todo = 
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$ listType : grocery = 
+- grocery list
+- groceries
+
+$ listType : shopping = 
+- shopping list
+- things to buy
+- shop
+- things to shop
+
+> Local phrase list
+$ addSomething : PhraseList interchangeable
 - add
-- add a todo {todoTitle=wrap up coding by tonight}
-- add a todo (titled|called|with title) {todoTitle_patternAny}
-- add a todo with ["]{todoTitle_patternAny}["] [as the title]
+- create
+- put
 
-# GetTodoTitle
-- {todoTitle=buy milk} is my todo's title
-- {todoTitle=pick up joe at 3pm} is the title of my todo
-- the title is {todoTitle=Eat when you are hungry}
-- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
-- yup, its {todoTitle=do groceries this weekend}
-- it is "{todoTitle=learn to dance}"
+> Examples of things users can provide when prompted for a list type or item title
+# GetListTypeAndTitle
+> Examples of what the user can say to provide the todo title
+- {itemTitle=buy milk} is my todo's title
+- {itemTitle=pick up joe at 3pm} is the title of my todo
+- the title is {itemTitle=Eat when you are hungry}
+- yup, its {itemTitle=do groceries this weekend}
+- it is "{itemTitle=learn to dance}"
 > Add more samples for machine learned todo title entity
-- {todoTitle=prep for meeting with John}
-- {todoTitle=water plants on saturday}
-- {todoTitle=do groceries}
-- {todoTitle=pick up Ben on the way home}
-- {todoTitle=call mom}
-- {todoTitle=get dog treats}
-- {todoTitle=pick up joe at 3pm}
-- {todoTitle=Eat when you are hungry}
-- {todoTitle=water the garden tomorrow}
-- {todoTitle=do groceries this weekend}
-- {todoTitle=learn to dance}
+- {itemTitle=prep for meeting with John}
+- {itemTitle=water plants on saturday}
+- {itemTitle=do groceries}
+- {itemTitle=pick up Ben on the way home}
+- {itemTitle=call mom}
+- {itemTitle=get dog treats}
+- {itemTitle=pick up joe at 3pm}
+- {itemTitle=Eat when you are hungry}
+- {itemTitle=water the garden tomorrow}
+- {itemTitle=do groceries this weekend}
+- {itemTitle=learn to dance}
 > Add patterns
-- {todoTitle_patternAny} is [my] (todo|to do)['s] title
-- {todoTitle_patternAny} is [the] title of [(my|the)] todo
-- [sure][,] the title is {todoTitle_patternAny}
-- [yup][,] its {todoTitle_patternAny} 
-- (its|it is) ["]{todoTitle_patternAny}["]
-- {todoTitle_patternAny}
-
+- {itemTitle} is [my] (todo|to do)['s] title
+- {itemTitle} is [the] title of [(my|the)] todo
+- [sure][,] the title is {itemTitle}
+- [yup][,] its {itemTitle} 
+- (its|it is) ["]{itemTitle}["]
+- (sure|ok)[(,|.)] the title is {itemTitle}
+- {itemTitle}
+> Examples of what user can say when prompted for List type.
+- Shopping
+- todo
+- to do list
+- add it to my shopping list
+- please make it a todo item
+- that would be grocery
+- add an item to the grocery list
+- that would be the todo list
+> Examples of things users can provide in conjunction
+- add {itemTitle=buy fruits and vegetables} to my shopping list
+> Add patterns
+- [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
+> Include all utterances and phrase from the trigger intent as well
+- [Trigger phrases](./AddToDoDialog.lu#Add-todo)
 
 # Help
 - what can I say?

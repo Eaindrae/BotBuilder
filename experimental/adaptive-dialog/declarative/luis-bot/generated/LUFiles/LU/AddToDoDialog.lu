@@ -1,25 +1,64 @@
 
 > # Intent definitions
 
-## GetTodoTitle
-- {todoTitle_patternAny}
-- {todoTitle=prep for meeting with John}
-- {todoTitle=water plants on saturday}
-- {todoTitle=do groceries}
-- {todoTitle=pick up Ben on the way home}
-- {todoTitle=call mom}
-- {todoTitle=get dog treats}
-- {todoTitle=buy milk} is my todo's title
-- {todoTitle=pick up joe at 3pm} is the title of my todo
-- the title is {todoTitle=Eat when you are hungry}
-- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
-- yup, its {todoTitle=do groceries this weekend}
-- it is "{todoTitle=learn to dance}
-- {todoTitle_patternAny} is [my] (todo|to do)['s] title
-- {todoTitle_patternAny} is [the] title of [(my|the)] todo
-- [sure][,] the title is {todoTitle_patternAny}
-- [yup][,] its {todoTitle_patternAny}
-- (its|it is) ["]{todoTitle_patternAny}["]
+## GetListTypeAndTitle
+- {itemTitle=buy milk} is my todo's title
+- {itemTitle=pick up joe at 3pm} is the title of my todo
+- the title is {itemTitle=Eat when you are hungry}
+- yup, its {itemTitle=do groceries this weekend}
+- it is "{itemTitle=learn to dance}"
+- {itemTitle=prep for meeting with John}
+- {itemTitle=water plants on saturday}
+- {itemTitle=do groceries}
+- {itemTitle=pick up Ben on the way home}
+- {itemTitle=call mom}
+- {itemTitle=get dog treats}
+- {itemTitle=pick up joe at 3pm}
+- {itemTitle=Eat when you are hungry}
+- {itemTitle=water the garden tomorrow}
+- {itemTitle=do groceries this weekend}
+- {itemTitle=learn to dance}
+- Shopping
+- todo
+- to do list
+- add it to my shopping list
+- please make it a todo item
+- that would be grocery
+- add an item to the grocery list
+- that would be the todo list
+- add {itemTitle=buy fruits and vegetables} to my shopping list
+- add
+- Add todo
+- add another one
+- add another todo
+- add a to do item
+- add get a haircut to my tasks
+- Please remind me to buy milk
+- Please remember that I need to buy milk
+- I need you to remember that my wife's birthday is Jan 9th
+- Add a todo named send report over this weekend
+- Add get a new car to the todo list
+- Add write a spec to the list
+- Add finish this demo to my todo list
+- add a todo wrap up coding by tonight
+- would you add heavy cream to the shopping list?
+- can you please add milk to the grocery list?
+- {itemTitle} is [my] (todo|to do)['s] title
+- {itemTitle} is [the] title of [(my|the)] todo
+- [sure][,] the title is {itemTitle}
+- [yup][,] its {itemTitle}
+- (its|it is) ["]{itemTitle}["]
+- (sure|ok)[(,|.)] the title is {itemTitle}
+- {itemTitle}
+- [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
+- Please remember [to] {itemTitle}
+- I need you to remember [that] {itemTitle}
+- (Add|create) a todo named {itemTitle}
+- (Add|create) {itemTitle} to the [todo] list
+- (Add|create) {itemTitle} to [my] todo
+- (Add|create) a todo (titled|called|with title) {itemTitle}
+- (Add|create) a todo with ["]{itemTitle}["] [as the title]
+- (Add|create) {itemTitle} to [my] {listType}
 
 
 ## Help
@@ -110,7 +149,7 @@
 
 > # Entity definitions
 
-$todoTitle:simple
+$itemTitle:simple
 
 
 > # PREBUILT Entity definitions
@@ -118,8 +157,30 @@ $todoTitle:simple
 
 > # Phrase list definitions
 
+$addSomething:phraseList
+- add,create,put
 
 > # List entities
+
+$listType:todo=
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$listType:grocery=
+- grocery list
+- groceries
+
+$listType:shopping=
+- shopping list
+- things to buy
+- shop
+- things to shop
+
+
 
 > # RegEx entities
 

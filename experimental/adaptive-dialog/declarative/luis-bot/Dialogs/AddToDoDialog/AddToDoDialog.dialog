@@ -5,23 +5,28 @@
     "steps": [
         {
             "$type": "Microsoft.SetProperty",
-            "value": "@todoTitle_patternAny[0]",
-            "property": "turn.todoTitle"
+            "value": "@itemTitle[0]",
+            "property": "dialog.itemTitle"
         },
         {
             "$type": "Microsoft.SetProperty",
-            "value": "@todoTitle[0]",
-            "property": "turn.todoTitle"
+            "value": "@listType[0][0]",
+            "property": "dialog.listType"
         },
         {
             "$type": "Microsoft.TextInput",
-            "property": "turn.todoTitle",
+            "property": "dialog.itemTitle",
             "prompt": "[Get-ToDo-Title]"
         },
         {
+            "$type": "Microsoft.TextInput",
+            "property": "dialog.listType",
+            "prompt": "[Get-List-Type]"
+        },
+        {
             "$type": "Microsoft.EditArray",
-            "itemProperty": "turn.todoTitle",
-            "arrayProperty": "user.todos",
+            "itemProperty": "dialog.itemTitle",
+            "arrayProperty": "user.lists.{dialog.listType}",
             "changeType": "Push"
         },
         {
@@ -32,18 +37,18 @@
     "rules": [
         {
             "$type": "Microsoft.IntentRule",
-            "intent": "GetTodoTitle",
+            "intent": "GetListTypeAndTitle",
             "steps": [
                 {
                     "$type": "Microsoft.SetProperty",
-                    "value": "@todoTitle_patternAny[0]",
-                    "property": "turn.todoTitle"
-                }, 
+                    "value": "@todoTitle[0]",
+                    "property": "dialog.itemTitle"
+                },
                 {
                     "$type": "Microsoft.SetProperty",
-                    "value": "@todoTitle[0]",
-                    "property": "turn.todoTitle"
-                }      
+                    "value": "@listType[0]",
+                    "property": "dialog.listType"
+                }     
             ]
         },
         {
@@ -97,7 +102,7 @@
             "steps": [
               {
                 "$type": "Microsoft.SetProperty",
-                "property": "turn.todoTitle",
+                "property": "dialog.itemTitle",
                 "value": "turn.activity.text"
               }
             ]

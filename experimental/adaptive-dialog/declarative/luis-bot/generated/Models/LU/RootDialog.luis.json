@@ -21,6 +21,10 @@
   ],
   "entities": [
     {
+      "name": "itemTitle",
+      "roles": []
+    },
+    {
       "name": "todoTitle",
       "roles": []
     },
@@ -30,12 +34,52 @@
     }
   ],
   "composites": [],
-  "closedLists": [],
+  "closedLists": [
+    {
+      "name": "listType",
+      "subLists": [
+        {
+          "canonicalForm": "todo",
+          "list": [
+            "todos",
+            "to dos",
+            "todo list",
+            "todos list",
+            "to do list",
+            "tasks"
+          ]
+        },
+        {
+          "canonicalForm": "grocery",
+          "list": [
+            "grocery list",
+            "groceries"
+          ]
+        },
+        {
+          "canonicalForm": "shopping",
+          "list": [
+            "shopping list",
+            "things to buy",
+            "shop",
+            "things to shop"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
   "regex_entities": [],
   "model_features": [
     {
       "name": "todoItem",
       "words": "todo,todos,to dos,todo list,todos list,item list,items collection,collection,list",
+      "mode": true,
+      "activated": true
+    },
+    {
+      "name": "addSomething",
+      "words": "add,create,put",
       "mode": true,
       "activated": true
     }
@@ -213,91 +257,14 @@
       "entities": []
     },
     {
+      "text": "add",
+      "intent": "Add todo",
+      "entities": []
+    },
+    {
       "text": "Add todo",
       "intent": "Add todo",
       "entities": []
-    },
-    {
-      "text": "add a to do item",
-      "intent": "Add todo",
-      "entities": []
-    },
-    {
-      "text": "Please remind me to buy milk",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 20,
-          "endPos": 27
-        }
-      ]
-    },
-    {
-      "text": "Please remember that I need to buy milk",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 31,
-          "endPos": 38
-        }
-      ]
-    },
-    {
-      "text": "I need you to remember that my wife's birthday is Jan 9th",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 28,
-          "endPos": 56
-        }
-      ]
-    },
-    {
-      "text": "Add a todo named send report over this weekend",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 17,
-          "endPos": 45
-        }
-      ]
-    },
-    {
-      "text": "Add get a new car to the todo list",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 4,
-          "endPos": 16
-        }
-      ]
-    },
-    {
-      "text": "Add write a spec to the list",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 4,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "Add finish this demo to my todo list",
-      "intent": "Add todo",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 4,
-          "endPos": 19
-        }
-      ]
     },
     {
       "text": "add another one",
@@ -310,18 +277,144 @@
       "entities": []
     },
     {
-      "text": "add",
+      "text": "add a to do item",
       "intent": "Add todo",
       "entities": []
+    },
+    {
+      "text": "add an item to the grocery list",
+      "intent": "Add todo",
+      "entities": []
+    },
+    {
+      "text": "add buy fruits and vegetables to my shopping list",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add get a haircut to my tasks",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Please remind me to buy milk",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "Please remember that I need to buy milk",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "I need you to remember that my wife's birthday is Jan 9th",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 28,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "Add a todo named send report over this weekend",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 17,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "Add get a new car to the todo list",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Add write a spec to the list",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "Add finish this demo to my todo list",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 19
+        }
+      ]
     },
     {
       "text": "add a todo wrap up coding by tonight",
       "intent": "Add todo",
       "entities": [
         {
-          "entity": "todoTitle",
+          "entity": "itemTitle",
           "startPos": 11,
           "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "would you add heavy cream to the shopping list?",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 14,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "can you please add milk to the grocery list?",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 19,
+          "endPos": 22
         }
       ]
     },
@@ -523,31 +616,35 @@
   ],
   "patterns": [
     {
-      "pattern": "Please remember [to] {todoTitle_patternAny}",
+      "pattern": "Please remember [to] {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "I need you to remember [that] {todoTitle_patternAny}",
+      "pattern": "I need you to remember [that] {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "Add a todo named {todoTitle_patternAny}",
+      "pattern": "(Add|create) a todo named {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to the [todo] list",
+      "pattern": "(Add|create) {itemTitle} to the [todo] list",
       "intent": "Add todo"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to [my] todo",
+      "pattern": "(Add|create) {itemTitle} to [my] todo",
       "intent": "Add todo"
     },
     {
-      "pattern": "add a todo (titled|called|with title) {todoTitle_patternAny}",
+      "pattern": "(Add|create) a todo (titled|called|with title) {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "add a todo with [\"]{todoTitle_patternAny}[\"] [as the title]",
+      "pattern": "(Add|create) a todo with [\"]{itemTitle}[\"] [as the title]",
+      "intent": "Add todo"
+    },
+    {
+      "pattern": "(Add|create) {itemTitle} to [my] {listType}",
       "intent": "Add todo"
     },
     {

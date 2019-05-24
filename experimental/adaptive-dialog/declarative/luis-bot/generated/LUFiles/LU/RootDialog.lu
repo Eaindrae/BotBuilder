@@ -44,26 +44,32 @@
 
 
 ## Add todo
+- add
 - Add todo
-- add a to do item
-- Please remind me to {todoTitle=buy milk}
-- Please remember that I need to {todoTitle=buy milk}
-- I need you to remember that {todoTitle=my wife's birthday is Jan 9th}
-- Add a todo named {todoTitle=send report over this weekend}
-- Add {todoTitle=get a new car} to the todo list
-- Add {todoTitle=write a spec} to the list
-- Add {todoTitle=finish this demo} to my todo list
 - add another one
 - add another todo
-- add
-- add a todo {todoTitle=wrap up coding by tonight}
-- Please remember [to] {todoTitle_patternAny}
-- I need you to remember [that] {todoTitle_patternAny}
-- Add a todo named {todoTitle_patternAny}
-- Add {todoTitle_patternAny} to the [todo] list
-- Add {todoTitle_patternAny} to [my] todo
-- add a todo (titled|called|with title) {todoTitle_patternAny}
-- add a todo with ["]{todoTitle_patternAny}["] [as the title]
+- add a to do item
+- add an item to the grocery list
+- add {itemTitle=buy fruits and vegetables} to my shopping list
+- add {itemTitle=get a haircut} to my tasks
+- Please remind me to {itemTitle=buy milk}
+- Please remember that I need to {itemTitle=buy milk}
+- I need you to remember that {itemTitle=my wife's birthday is Jan 9th}
+- Add a todo named {itemTitle=send report over this weekend}
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo {itemTitle=wrap up coding by tonight}
+- would you add {itemTitle=heavy cream} to the shopping list?
+- can you please add {itemTitle=milk} to the grocery list?
+- Please remember [to] {itemTitle}
+- I need you to remember [that] {itemTitle}
+- (Add|create) a todo named {itemTitle}
+- (Add|create) {itemTitle} to the [todo] list
+- (Add|create) {itemTitle} to [my] todo
+- (Add|create) a todo (titled|called|with title) {itemTitle}
+- (Add|create) a todo with ["]{itemTitle}["] [as the title]
+- (Add|create) {itemTitle} to [my] {listType}
 
 
 ## DeleteToDoDialog
@@ -113,6 +119,8 @@
 
 > # Entity definitions
 
+$itemTitle:simple
+
 $todoTitle:simple
 
 $todoIdx:simple
@@ -127,8 +135,30 @@ $PREBUILT:ordinal
 
 $todoItem:phraseList
 - todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
+$addSomething:phraseList
+- add,create,put
 
 > # List entities
+
+$listType:todo=
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$listType:grocery=
+- grocery list
+- groceries
+
+$listType:shopping=
+- shopping list
+- things to buy
+- shop
+- things to shop
+
+
 
 > # RegEx entities
 

@@ -303,12 +303,42 @@
       "entities": []
     },
     {
+      "text": "add",
+      "intent": "None",
+      "entities": []
+    },
+    {
       "text": "Add todo",
       "intent": "None",
       "entities": []
     },
     {
+      "text": "add another one",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add another todo",
+      "intent": "None",
+      "entities": []
+    },
+    {
       "text": "add a to do item",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add an item to the grocery list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add buy fruits and vegetables to my shopping list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add get a haircut to my tasks",
       "intent": "None",
       "entities": []
     },
@@ -348,22 +378,17 @@
       "entities": []
     },
     {
-      "text": "add another one",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "add another todo",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "add",
-      "intent": "None",
-      "entities": []
-    },
-    {
       "text": "add a todo wrap up coding by tonight",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "would you add heavy cream to the shopping list?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you please add milk to the grocery list?",
       "intent": "None",
       "entities": []
     },

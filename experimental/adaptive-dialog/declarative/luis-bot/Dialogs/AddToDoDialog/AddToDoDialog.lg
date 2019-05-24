@@ -16,17 +16,45 @@
 [Suggestions=Yes | No]
 ```
 
+# Ack-Phrase
+- Ok
+- Sure
+- You bet
+
+# Get-List-Type
+- ```
+Please pick the list type to add the item to
+[Suggestions=Todo | Grocery | Shopping]
+```
+
 # Get-ToDo-Title
 - ```
-Ok, what is the title of your todo?
+@{lgTemplate("Ack-Phrase")}, what would you like to add to your @{dialog.listType} list?
 [Suggestions=Help | Cancel]
 ```
+# Count-prefix
+- You have
+- I have
+
+# item-plurality (x)
+- If: {count(x) > 1}
+    - items
+- Else: 
+    - item
+
+# Count-readback
+- IF: {dialog.listType == 'todo'}
+    - [Count-prefix] {count(user.lists.todo)} [item-plurality(user.lists.todo)] in your {dialog.listType} list.
+- ELSEIF: {dialog.listType == 'grocery'}
+    - [Count-prefix] {count(user.lists.grocery)} [item-plurality(user.lists.grocery)] in your {dialog.listType} list.
+- ELSEIF: {dialog.listType == 'shopping'}
+    - [Count-prefix] {count(user.lists.shopping)} [item-plurality(user.lists.shopping)] in your {dialog.listType} list.
 
 > This template uses 'welcome-actions' which is not defined in this LG file. 
 > By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
 # Add-ToDo-ReadBack
 - ```
-@{lgTemplate("Help-prefix")}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
+@{lgTemplate("Help-prefix")}, I have added "@{dialog.itemTitle}" to your @{dialog.listType} list. @{lgTemplate("Count-readback")}
 @{lgTemplate("Welcome-Actions")}
 ```
 
