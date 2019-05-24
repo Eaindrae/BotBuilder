@@ -33,22 +33,24 @@
 - add {itemTitle=buy fruits and vegetables} to my shopping list
 - I would like to add "{itemTitle=some random topic}" to my todo list
 - I'd like to add "{itemTitle=some random topic}" to my grocery list
+- add {itemTitle=get a haircut} to my tasks
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo {itemTitle=wrap up coding by tonight}
+- would you add {itemTitle=heavy cream} to the shopping list?
+- can you please add {itemTitle=milk} to the grocery list?
+- {itemTitle=remember to check the water pump}
+- add {itemTitle=check the water pump this weekend}
 - add
 - Add todo
 - add another one
 - add another todo
 - add a to do item
-- add get a haircut to my tasks
 - Please remind me to buy milk
 - Please remember that I need to buy milk
 - I need you to remember that my wife's birthday is Jan 9th
 - Add a todo named send report over this weekend
-- Add get a new car to the todo list
-- Add write a spec to the list
-- Add finish this demo to my todo list
-- add a todo wrap up coding by tonight
-- would you add heavy cream to the shopping list?
-- can you please add milk to the grocery list?
 - {itemTitle} is [my] (todo|to do)['s] title
 - {itemTitle} is [the] title of [(my|the)] todo
 - [sure][,] the title is {itemTitle}
@@ -59,15 +61,17 @@
 - (I would|I'd) like to add ["]{itemTitle}["] [to [my] {listType} [list]]
 - [please] add {itemTitle} to {listType} list
 - add {itemTitle} to {listType} [list]
+- add {itemTitle} to the {listType} list
 - [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
 - Please remember [to] {itemTitle}
 - I need you to remember [that] {itemTitle}
-- (Add|create|put) a todo named {itemTitle}
-- (Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]
-- (add|create|put) {itemTitle} to the todo list
-- (Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
-- (Add|create|put) a todo with ["]{itemTitle}["] [as the title]
+- add a todo named {itemTitle}
+- add {itemTitle} (to|in) (the|my) {listType} [list]
+- add {itemTitle} to the todo list
+- add a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
+- add a todo with ["]{itemTitle}["] [as the title]
 - add ["]{itemTitle}["] to the {listType} list
+- add {itemTitle}
 
 
 ## Help

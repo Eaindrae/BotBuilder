@@ -414,6 +414,28 @@
       ]
     },
     {
+      "text": "remember to check the water pump",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 0,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "add check the water pump this weekend",
+      "intent": "Add todo",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 36
+        }
+      ]
+    },
+    {
       "text": "Remove todo",
       "intent": "DeleteToDoDialog",
       "entities": []
@@ -619,27 +641,31 @@
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create|put) a todo named {itemTitle}",
+      "pattern": "add a todo named {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]",
+      "pattern": "add {itemTitle} (to|in) (the|my) {listType} [list]",
       "intent": "Add todo"
     },
     {
-      "pattern": "(add|create|put) {itemTitle} to the todo list",
+      "pattern": "add {itemTitle} to the todo list",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
+      "pattern": "add a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create|put) a todo with [\"]{itemTitle}[\"] [as the title]",
+      "pattern": "add a todo with [\"]{itemTitle}[\"] [as the title]",
       "intent": "Add todo"
     },
     {
       "pattern": "add [\"]{itemTitle}[\"] to the {listType} list",
+      "intent": "Add todo"
+    },
+    {
+      "pattern": "add {itemTitle}",
       "intent": "Add todo"
     },
     {

@@ -4,6 +4,17 @@
     "recognizer": "DeleteToDoDialog.lu",
     "steps": [
         {
+            "$type": "Microsoft.SendActivity",
+            "activity": "Sorry.. Under construction.."
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "[Welcome-Actions]"
+        },
+        {
+            "$type": "Microsoft.EndDialog"
+        },
+        {
             "$type": "Microsoft.IfCondition",
             "condition": "user.todos == null || count(user.todos) <= 0",
             "steps": [

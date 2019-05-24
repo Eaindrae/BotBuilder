@@ -21,15 +21,18 @@
 - add a todo {itemTitle=wrap up coding by tonight}
 - would you add {itemTitle=heavy cream} to the shopping list?
 - can you please add {itemTitle=milk} to the grocery list?
+- {itemTitle=remember to check the water pump}
+- add {itemTitle=check the water pump this weekend}
 > Add some patterns
 - Please remember [to] {itemTitle}
 - I need you to remember [that] {itemTitle}
-- (Add|create|put) a todo named {itemTitle}
-- (Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]
-- (add|create|put) {itemTitle} to the todo list
-- (Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
-- (Add|create|put) a todo with ["]{itemTitle}["] [as the title]
+- add a todo named {itemTitle}
+- add {itemTitle} (to|in) (the|my) {listType} [list]
+- add {itemTitle} to the todo list
+- add a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
+- add a todo with ["]{itemTitle}["] [as the title]
 - add ["]{itemTitle}["] to the {listType} list
+- add {itemTitle}
 
 [List types](../RootDialog/listTypes.lu)
 
@@ -88,9 +91,21 @@ $ addSomething : PhraseList interchangeable
 - (I would|I'd) like to add ["]{itemTitle}["] [to [my] {listType} [list]]
 - [please] add {itemTitle} to {listType} list
 - add {itemTitle} to {listType} [list]
+- add {itemTitle} to the {listType} list
 - [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
 > Include all utterances and phrases from the trigger intent as well
 - [Trigger phrases](./AddToDoDialog.lu#Add-todo)
+- add an item to the grocery list
+- add {itemTitle=buy fruits and vegetables} to my shopping list
+- add {itemTitle=get a haircut} to my tasks
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo {itemTitle=wrap up coding by tonight}
+- would you add {itemTitle=heavy cream} to the shopping list?
+- can you please add {itemTitle=milk} to the grocery list?
+- {itemTitle=remember to check the water pump}
+- add {itemTitle=check the water pump this weekend}
 
 # Help
 - what can I say?

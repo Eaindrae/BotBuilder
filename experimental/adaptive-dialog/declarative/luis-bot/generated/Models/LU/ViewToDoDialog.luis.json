@@ -354,6 +354,16 @@
       "entities": []
     },
     {
+      "text": "remember to check the water pump",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add check the water pump this weekend",
+      "intent": "None",
+      "entities": []
+    },
+    {
       "text": "Remove todo",
       "intent": "None",
       "entities": []

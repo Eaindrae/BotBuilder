@@ -336,6 +336,121 @@
       ]
     },
     {
+      "text": "add an item to the grocery list",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
+      "text": "add buy fruits and vegetables to my shopping list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add get a haircut to my tasks",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Add get a new car to the todo list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Add write a spec to the list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "Add finish this demo to my todo list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add a todo wrap up coding by tonight",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 11,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "would you add heavy cream to the shopping list?",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 14,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "can you please add milk to the grocery list?",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 19,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "remember to check the water pump",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 0,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "add check the water pump this weekend",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 36
+        }
+      ]
+    },
+    {
       "text": "what can I say?",
       "intent": "Help",
       "entities": []
@@ -492,6 +607,16 @@
     },
     {
       "text": "can you please add milk to the grocery list?",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
+      "text": "remember to check the water pump",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
+      "text": "add check the water pump this weekend",
       "intent": "GetListTypeAndTitle",
       "entities": []
     },
@@ -868,6 +993,10 @@
       "intent": "GetListTypeAndTitle"
     },
     {
+      "pattern": "add {itemTitle} to the {listType} list",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
       "pattern": "[(add|that would be)] [\"]{itemTitle}[\"] to [(my|the)] {listType}",
       "intent": "GetListTypeAndTitle"
     },
@@ -880,27 +1009,31 @@
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create|put) a todo named {itemTitle}",
+      "pattern": "add a todo named {itemTitle}",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]",
+      "pattern": "add {itemTitle} (to|in) (the|my) {listType} [list]",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(add|create|put) {itemTitle} to the todo list",
+      "pattern": "add {itemTitle} to the todo list",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
+      "pattern": "add a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create|put) a todo with [\"]{itemTitle}[\"] [as the title]",
+      "pattern": "add a todo with [\"]{itemTitle}[\"] [as the title]",
       "intent": "GetListTypeAndTitle"
     },
     {
       "pattern": "add [\"]{itemTitle}[\"] to the {listType} list",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
+      "pattern": "add {itemTitle}",
       "intent": "GetListTypeAndTitle"
     }
   ],
