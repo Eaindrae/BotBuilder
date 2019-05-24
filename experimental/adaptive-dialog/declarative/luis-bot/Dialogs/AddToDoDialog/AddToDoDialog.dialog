@@ -15,13 +15,13 @@
         },
         {
             "$type": "Microsoft.TextInput",
-            "property": "dialog.itemTitle",
-            "prompt": "[Get-ToDo-Title]"
+            "property": "dialog.listType",
+            "prompt": "[Get-List-Type]"
         },
         {
             "$type": "Microsoft.TextInput",
-            "property": "dialog.listType",
-            "prompt": "[Get-List-Type]"
+            "property": "dialog.itemTitle",
+            "prompt": "[Get-ToDo-Title]"
         },
         {
             "$type": "Microsoft.EditArray",
@@ -40,13 +40,24 @@
             "intent": "GetListTypeAndTitle",
             "steps": [
                 {
+                    "$type": "Microsoft.IfCondition",
+                    "condition": "turn.entities.todoTitle == null && turn.entities.listType == null",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SetProperty",
+                            "value": "turn.activity.text",
+                            "property": "dialog.itemTitle"
+                        }
+                    ]
+                },
+                {
                     "$type": "Microsoft.SetProperty",
                     "value": "@todoTitle[0]",
                     "property": "dialog.itemTitle"
                 },
                 {
                     "$type": "Microsoft.SetProperty",
-                    "value": "@listType[0]",
+                    "value": "@listType[0][0]",
                     "property": "dialog.listType"
                 }     
             ]
@@ -93,18 +104,6 @@
                     "$type": "Microsoft.SendActivity",
                     "activity": "Handled cancel."
                 }        
-            ]
-        },
-        {
-            "$type": "Microsoft.IntentRule",
-            "intent": "None",
-            "constraint": "turn.dialogEvent.value.intents.None.score <= 0.4",
-            "steps": [
-              {
-                "$type": "Microsoft.SetProperty",
-                "property": "dialog.itemTitle",
-                "value": "turn.activity.text"
-              }
             ]
         }
     ]

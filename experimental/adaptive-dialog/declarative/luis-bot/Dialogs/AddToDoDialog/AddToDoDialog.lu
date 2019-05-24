@@ -24,30 +24,14 @@
 > Add some patterns
 - Please remember [to] {itemTitle}
 - I need you to remember [that] {itemTitle}
-- (Add|create) a todo named {itemTitle}
-- (Add|create) {itemTitle} to the [todo] list
-- (Add|create) {itemTitle} to [my] todo
-- (Add|create) a todo (titled|called|with title) {itemTitle}
-- (Add|create) a todo with ["]{itemTitle}["] [as the title]
-- (Add|create) {itemTitle} to [my] {listType}
+- (Add|create|put) a todo named {itemTitle}
+- (Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]
+- (add|create|put) {itemTitle} to the todo list
+- (Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
+- (Add|create|put) a todo with ["]{itemTitle}["] [as the title]
+- add ["]{itemTitle}["] to the {listType} list
 
-$ listType : todo = 
-- todos
-- to dos
-- todo list
-- todos list
-- to do list
-- tasks
-
-$ listType : grocery = 
-- grocery list
-- groceries
-
-$ listType : shopping = 
-- shopping list
-- things to buy
-- shop
-- things to shop
+[List types](../RootDialog/listTypes.lu)
 
 > Local phrase list
 $ addSomething : PhraseList interchangeable
@@ -86,17 +70,26 @@ $ addSomething : PhraseList interchangeable
 > Examples of what user can say when prompted for List type.
 - Shopping
 - todo
+- grocery
+- shopping
 - to do list
 - add it to my shopping list
 - please make it a todo item
 - that would be grocery
 - add an item to the grocery list
 - that would be the todo list
+- how about the grocery list
+- I would like to add an item to the shopping list
 > Examples of things users can provide in conjunction
 - add {itemTitle=buy fruits and vegetables} to my shopping list
+- I would like to add "{itemTitle=some random topic}" to my todo list
+- I'd like to add "{itemTitle=some random topic}" to my grocery list
 > Add patterns
+- (I would|I'd) like to add ["]{itemTitle}["] [to [my] {listType} [list]]
+- [please] add {itemTitle} to {listType} list
+- add {itemTitle} to {listType} [list]
 - [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
-> Include all utterances and phrase from the trigger intent as well
+> Include all utterances and phrases from the trigger intent as well
 - [Trigger phrases](./AddToDoDialog.lu#Add-todo)
 
 # Help
@@ -118,3 +111,21 @@ $ addSomething : PhraseList interchangeable
 - undo
 
 [TodoPhraseList](../RootDialog/TodoPhraseList.lu)
+
+$ listType : todo = 
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$ listType : grocery = 
+- grocery list
+- groceries
+
+$ listType : shopping = 
+- shopping list
+- things to buy
+- shop
+- things to shop

@@ -252,11 +252,6 @@
       "entities": []
     },
     {
-      "text": "No todo for me",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
       "text": "add",
       "intent": "Add todo",
       "entities": []
@@ -624,27 +619,27 @@
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) a todo named {itemTitle}",
+      "pattern": "(Add|create|put) a todo named {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to the [todo] list",
+      "pattern": "(Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to [my] todo",
+      "pattern": "(add|create|put) {itemTitle} to the todo list",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) a todo (titled|called|with title) {itemTitle}",
+      "pattern": "(Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) a todo with [\"]{itemTitle}[\"] [as the title]",
+      "pattern": "(Add|create|put) a todo with [\"]{itemTitle}[\"] [as the title]",
       "intent": "Add todo"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to [my] {listType}",
+      "pattern": "add [\"]{itemTitle}[\"] to the {listType} list",
       "intent": "Add todo"
     },
     {
@@ -675,6 +670,11 @@
   "patternAnyEntities": [
     {
       "name": "todoTitle_patternAny",
+      "explicitList": [],
+      "roles": []
+    },
+    {
+      "name": "count",
       "explicitList": [],
       "roles": []
     }

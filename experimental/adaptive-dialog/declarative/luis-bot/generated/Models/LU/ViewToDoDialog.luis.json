@@ -1,195 +1,161 @@
 {
   "intents": [
     {
-      "name": "GetItemToDelete"
-    },
-    {
-      "name": "Help"
-    },
-    {
-      "name": "Cancel"
+      "name": "GetListType"
     },
     {
       "name": "None"
     }
   ],
-  "entities": [
+  "entities": [],
+  "composites": [],
+  "closedLists": [
     {
-      "name": "todoTitle",
-      "roles": []
-    },
-    {
-      "name": "todoIdx",
+      "name": "listType",
+      "subLists": [
+        {
+          "canonicalForm": "todo",
+          "list": [
+            "todos",
+            "to dos",
+            "todo list",
+            "todos list",
+            "to do list",
+            "tasks"
+          ]
+        },
+        {
+          "canonicalForm": "grocery",
+          "list": [
+            "grocery list",
+            "groceries"
+          ]
+        },
+        {
+          "canonicalForm": "shopping",
+          "list": [
+            "shopping list",
+            "things to buy",
+            "shop",
+            "things to shop"
+          ]
+        }
+      ],
       "roles": []
     }
   ],
-  "composites": [],
-  "closedLists": [],
   "regex_entities": [],
   "model_features": [],
   "regex_features": [],
   "utterances": [
     {
-      "text": "the first one",
-      "intent": "GetItemToDelete",
+      "text": "todo",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "last one",
-      "intent": "GetItemToDelete",
+      "text": "shopping",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "its the last one",
-      "intent": "GetItemToDelete",
+      "text": "grocery",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "I would like to delete the second item in my list",
-      "intent": "GetItemToDelete",
+      "text": "I would like to see my todo list",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "I need to delete buy milk",
-      "intent": "GetItemToDelete",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 17,
-          "endPos": 24
-        }
-      ]
-    },
-    {
-      "text": "I have completed finish this demo",
-      "intent": "GetItemToDelete",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 17,
-          "endPos": 32
-        }
-      ]
-    },
-    {
-      "text": "remove the item with title water the yard",
-      "intent": "GetItemToDelete",
-      "entities": [
-        {
-          "entity": "todoTitle",
-          "startPos": 27,
-          "endPos": 40
-        }
-      ]
-    },
-    {
-      "text": "What can i say",
-      "intent": "Help",
+      "text": "I'd like the grocery list",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "help",
-      "intent": "Help",
+      "text": "shopping list please",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "i need help",
-      "intent": "Help",
+      "text": "show me my shopping list",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "how do I tell you what to delete?",
-      "intent": "Help",
+      "text": "pull up my todo list",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "What are valid todo titles?",
-      "intent": "Help",
+      "text": "bring up the grocery list",
+      "intent": "GetListType",
       "entities": []
     },
     {
-      "text": "I'm not sure what I can say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "what can you take as a todo title?",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "stop that",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "cancel",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "abort that",
-      "intent": "Cancel",
+      "text": "what's on my todo list",
+      "intent": "GetListType",
       "entities": []
     },
     {
       "text": "What can I say?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "Who are you?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "I need help",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "Not sure what I can do",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "What do you want me to say?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "What can you do?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "What can you help with?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "help please",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "What are my options?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "well, I do not know what my todo's title is",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "I do not know",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "can you please help?",
-      "intent": "Help",
+      "intent": "None",
       "entities": []
     },
     {
@@ -219,82 +185,82 @@
     },
     {
       "text": "cancel",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel all",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "stop that",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "do not do it",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "abort",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "please stop what you are doing",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "I changed my mind",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel add todo",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel that",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "I do not want to add a todo",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "No todo for me",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "Cancel this",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "cancel delete todo",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "Let's just leave it as is",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "I do not wish to delete my todo anymore",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
       "text": "Keep my todos as is",
-      "intent": "Cancel",
+      "intent": "None",
       "entities": []
     },
     {
@@ -388,125 +354,111 @@
       "entities": []
     },
     {
-      "text": "show my todo",
+      "text": "Remove todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "can you please show my todos?",
+      "text": "Mark buy milk as complete",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "please show my todo list",
+      "text": "Flag first one as done",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "todo list please",
+      "text": "Remove finish this demo from the todo list",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "I need to see my todo list",
+      "text": "remove another one",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "can you show me the list?",
+      "text": "remove",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "please show the list",
+      "text": "clear my todo named get a new car",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "what do i have on my todo?",
+      "text": "I'm done with the first todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "what is on my list?",
+      "text": "I finished the last todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "do i have anything left on my todo list?",
+      "text": "Remove the first todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "I hope I do not have any todo left",
+      "text": "Delete todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "do i have any tasks left?",
+      "text": "Clear my todos",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "hit me up with more items",
+      "text": "Delete all my todos",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "view my todos",
+      "text": "Remove all my todo",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "can you show my todo",
+      "text": "Forget the list",
       "intent": "None",
       "entities": []
     },
     {
-      "text": "see todo",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "I would like to see my todos list",
+      "text": "Purge the todo list",
       "intent": "None",
       "entities": []
     }
   ],
   "patterns": [
     {
-      "pattern": "[delete] [the] {todoTitle_patternAny}",
-      "intent": "GetItemToDelete"
+      "pattern": "Grocery [**] {count} (item|items) [**]",
+      "intent": "GetListType"
     },
     {
-      "pattern": "(delete|remove) [the] item [with title] {todoTitle_patternAny}",
-      "intent": "GetItemToDelete"
+      "pattern": "Todo [**] {count} (item|items) [**]",
+      "intent": "GetListType"
     },
     {
-      "pattern": "{todoTitle_patternAny}",
-      "intent": "GetItemToDelete"
-    },
-    {
-      "pattern": "[please] remove {todoTitle_patternAny} from (my|the) [todo] [list]",
-      "intent": "GetItemToDelete"
+      "pattern": "Shopping [**] {count} (item|items) [**]",
+      "intent": "GetListType"
     }
   ],
   "patternAnyEntities": [
     {
-      "name": "todoTitle_patternAny",
+      "name": "count",
       "explicitList": [],
       "roles": []
     }
   ],
-  "prebuiltEntities": [
-    {
-      "name": "ordinal",
-      "roles": []
-    }
-  ],
+  "prebuiltEntities": [],
   "culture": "en-us",
   "versionId": "0.1",
   "luis_schema_version": "3.0.0",
   "desc": "Automatically generated by LUDown and LUBuild",
-  "name": "DeleteToDoDialog"
+  "name": "ViewToDoDialog"
 }

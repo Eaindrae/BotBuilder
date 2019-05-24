@@ -16,3 +16,38 @@
 - can you show my todo
 - see todo
 - I would like to see my todos list
+
+$ listType : todo = 
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$ listType : grocery = 
+- grocery list
+- groceries
+
+$ listType : shopping = 
+- shopping list
+- things to buy
+- shop
+- things to shop
+
+# GetListType
+- todo
+- shopping
+- grocery
+- I would like to see my todo list
+- I'd like the grocery list
+- shopping list please
+- show me my shopping list
+- pull up my todo list
+- bring up the grocery list
+- what's on my todo list
+- Grocery [**] {count} (item|items) [**]
+- Todo [**] {count} (item|items) [**]
+- Shopping [**] {count} (item|items) [**]
+
+[List types](../RootDialog/listTypes.lu)

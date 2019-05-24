@@ -1,0 +1,123 @@
+
+> # Intent definitions
+
+## GetListType
+- todo
+- shopping
+- grocery
+- I would like to see my todo list
+- I'd like the grocery list
+- shopping list please
+- show me my shopping list
+- pull up my todo list
+- bring up the grocery list
+- what's on my todo list
+- Grocery [**] {count} (item|items) [**]
+- Todo [**] {count} (item|items) [**]
+- Shopping [**] {count} (item|items) [**]
+
+
+## None
+- What can I say?
+- Who are you?
+- I need help
+- Not sure what I can do
+- What do you want me to say?
+- What can you do?
+- What can you help with?
+- help please
+- What are my options?
+- well, I do not know what my todo's title is
+- I do not know
+- can you please help?
+- hi
+- hello
+- hiya
+- how are you?
+- how do you do?
+- cancel
+- cancel all
+- stop that
+- do not do it
+- abort
+- please stop what you are doing
+- I changed my mind
+- cancel add todo
+- cancel that
+- I do not want to add a todo
+- No todo for me
+- Cancel this
+- cancel delete todo
+- Let's just leave it as is
+- I do not wish to delete my todo anymore
+- Keep my todos as is
+- add
+- Add todo
+- add another one
+- add another todo
+- add a to do item
+- add an item to the grocery list
+- add buy fruits and vegetables to my shopping list
+- add get a haircut to my tasks
+- Please remind me to buy milk
+- Please remember that I need to buy milk
+- I need you to remember that my wife's birthday is Jan 9th
+- Add a todo named send report over this weekend
+- Add get a new car to the todo list
+- Add write a spec to the list
+- Add finish this demo to my todo list
+- add a todo wrap up coding by tonight
+- would you add heavy cream to the shopping list?
+- can you please add milk to the grocery list?
+- Remove todo
+- Mark buy milk as complete
+- Flag first one as done
+- Remove finish this demo from the todo list
+- remove another one
+- remove
+- clear my todo named get a new car
+- I'm done with the first todo
+- I finished the last todo
+- Remove the first todo
+- Delete todo
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+$listType:todo=
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$listType:grocery=
+- grocery list
+- groceries
+
+$listType:shopping=
+- shopping list
+- things to buy
+- shop
+- things to shop
+
+
+
+> # RegEx entities
+
+

@@ -2,6 +2,7 @@
     "luis": {
         "RootDialog_en-us_lu": "154d6ba5-d2e9-44b9-9b62-03062a0736df",
         "AddToDoDialog_en-us_lu": "80b23a6a-659e-4552-9daa-be71c884f1d0",
-        "DeleteToDoDialog_en-us_lu": "08b67f8a-3ef0-4939-acaf-2785aeadf5bc"
+        "DeleteToDoDialog_en-us_lu": "08b67f8a-3ef0-4939-acaf-2785aeadf5bc",
+        "ViewToDoDialog_en-us_lu": "0bc98dc4-a5f0-4731-80fc-e73e6d093936"
     }
 }

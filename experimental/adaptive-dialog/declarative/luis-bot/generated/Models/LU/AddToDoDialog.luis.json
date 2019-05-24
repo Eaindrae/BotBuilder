@@ -253,6 +253,16 @@
       "entities": []
     },
     {
+      "text": "grocery",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
+      "text": "shopping",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
       "text": "to do list",
       "intent": "GetListTypeAndTitle",
       "entities": []
@@ -283,6 +293,16 @@
       "entities": []
     },
     {
+      "text": "how about the grocery list",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
+      "text": "I would like to add an item to the shopping list",
+      "intent": "GetListTypeAndTitle",
+      "entities": []
+    },
+    {
       "text": "add buy fruits and vegetables to my shopping list",
       "intent": "GetListTypeAndTitle",
       "entities": [
@@ -290,6 +310,28 @@
           "entity": "itemTitle",
           "startPos": 4,
           "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "I would like to add \"some random topic\" to my todo list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 21,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "I'd like to add \"some random topic\" to my grocery list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 17,
+          "endPos": 33
         }
       ]
     },
@@ -619,11 +661,6 @@
       "entities": []
     },
     {
-      "text": "No todo for me",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
       "text": "Remove todo",
       "intent": "None",
       "entities": []
@@ -819,6 +856,18 @@
       "intent": "GetListTypeAndTitle"
     },
     {
+      "pattern": "(I would|I'd) like to add [\"]{itemTitle}[\"] [to [my] {listType} [list]]",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
+      "pattern": "[please] add {itemTitle} to {listType} list",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
+      "pattern": "add {itemTitle} to {listType} [list]",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
       "pattern": "[(add|that would be)] [\"]{itemTitle}[\"] to [(my|the)] {listType}",
       "intent": "GetListTypeAndTitle"
     },
@@ -831,27 +880,27 @@
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) a todo named {itemTitle}",
+      "pattern": "(Add|create|put) a todo named {itemTitle}",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to the [todo] list",
+      "pattern": "(Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to [my] todo",
+      "pattern": "(add|create|put) {itemTitle} to the todo list",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) a todo (titled|called|with title) {itemTitle}",
+      "pattern": "(Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) a todo with [\"]{itemTitle}[\"] [as the title]",
+      "pattern": "(Add|create|put) a todo with [\"]{itemTitle}[\"] [as the title]",
       "intent": "GetListTypeAndTitle"
     },
     {
-      "pattern": "(Add|create) {itemTitle} to [my] {listType}",
+      "pattern": "add [\"]{itemTitle}[\"] to the {listType} list",
       "intent": "GetListTypeAndTitle"
     }
   ],

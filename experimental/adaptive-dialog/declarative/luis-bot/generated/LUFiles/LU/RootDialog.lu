@@ -64,12 +64,12 @@
 - can you please add {itemTitle=milk} to the grocery list?
 - Please remember [to] {itemTitle}
 - I need you to remember [that] {itemTitle}
-- (Add|create) a todo named {itemTitle}
-- (Add|create) {itemTitle} to the [todo] list
-- (Add|create) {itemTitle} to [my] todo
-- (Add|create) a todo (titled|called|with title) {itemTitle}
-- (Add|create) a todo with ["]{itemTitle}["] [as the title]
-- (Add|create) {itemTitle} to [my] {listType}
+- (Add|create|put) a todo named {itemTitle}
+- (Add|create|put) {itemTitle} (to|in) (the|my) {listType} [list]
+- (add|create|put) {itemTitle} to the todo list
+- (Add|create|put) a {listType} [list] [item] [(titled|called|with title)] {itemTitle}
+- (Add|create|put) a todo with ["]{itemTitle}["] [as the title]
+- add ["]{itemTitle}["] to the {listType} list
 
 
 ## DeleteToDoDialog

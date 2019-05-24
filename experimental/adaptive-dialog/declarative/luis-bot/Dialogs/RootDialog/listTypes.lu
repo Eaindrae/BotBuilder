@@ -1,0 +1,17 @@
+$ listType : todo = 
+- todos
+- to dos
+- todo list
+- todos list
+- to do list
+- tasks
+
+$ listType : grocery = 
+- grocery list
+- groceries
+
+$ listType : shopping = 
+- shopping list
+- things to buy
+- shop
+- things to shop

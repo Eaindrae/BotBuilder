@@ -1,18 +1,41 @@
-﻿# View-ToDos
-- IF: {user.todos != null && count(user.todos) != 0}
+﻿# get-view-list-type
+- ```
+Please pick the list type you would like to see..
+[Suggestions=Todo @{lgTemplate("Item-count", user.lists.todo)} | Grocery @{lgTemplate("Item-count",user.lists.shopping)} | Shopping @{lgTemplate("Item-count", user.lists.shopping)} | Cancel]
+```
+
+# Item-count (list)
+- ** [count-readback(list)] [Items-Ordinality(list)] **
+
+# count-readback (list)
+- IF: {list != null}
+    - {count(list)}
+- ELSE:
+    - no
+
+# Show-List
+- IF: {dialog.listType == 'todo'}
+    - [List-Readback(user.lists.todo, dialog.listType)]
+- ELSEIF: {dialog.listType == 'shopping'}
+    - [List-Readback(user.lists.shopping, dialog.listType)]
+- ELSEIF: {dialog.listType == 'grocery'}
+    - [List-Readback(user.lists.grocery, dialog.listType)]
+
+# List-Readback (list, type)
+- IF: {list != null && count(list) != 0}
     - ```
-You have @{count(user.todos)} @{lgTemplate("Items-Ordinality")} in your collection.
-- @{join(user.todos, '\r\n- ')}
+You have @{count(list)} @{lgTemplate("Items-Ordinality", list)} in your @{type} collection.
+- @{join(list, '\r\n- ')}
 @{lgTemplate("Welcome-Actions")}
 ```
 - ELSE: 
     - ```
-You do not have any Todos in your collection.
+You do not have any items in your @{type} collection.
 @{lgTemplate("Welcome-Actions")}
 ```
 
-# Items-Ordinality
-- IF: {user.todos != null && count(user.todos) == 1}
+# Items-Ordinality (list)
+- ELSEIF: {list != null && count(list) == 1}
     - item
 - ELSE:
     - items

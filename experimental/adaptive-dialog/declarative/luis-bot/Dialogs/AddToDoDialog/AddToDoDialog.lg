@@ -20,6 +20,8 @@
 - Ok
 - Sure
 - You bet
+- Yes
+- Absolutely
 
 # Get-List-Type
 - ```
@@ -37,24 +39,24 @@ Please pick the list type to add the item to
 - I have
 
 # item-plurality (x)
-- If: {count(x) > 1}
+- IF: {count(x) > 1}
     - items
-- Else: 
+- ELSE: 
     - item
 
-# Count-readback
-- IF: {dialog.listType == 'todo'}
-    - [Count-prefix] {count(user.lists.todo)} [item-plurality(user.lists.todo)] in your {dialog.listType} list.
-- ELSEIF: {dialog.listType == 'grocery'}
-    - [Count-prefix] {count(user.lists.grocery)} [item-plurality(user.lists.grocery)] in your {dialog.listType} list.
-- ELSEIF: {dialog.listType == 'shopping'}
-    - [Count-prefix] {count(user.lists.shopping)} [item-plurality(user.lists.shopping)] in your {dialog.listType} list.
+# Count-readback (listType, lists)
+- IF: {listType == 'todo'}
+    - [Count-prefix] {count(lists.todo)} [item-plurality(lists.todo)] in your {listType} list.
+- ELSEIF: {listType == 'grocery'}
+    - [Count-prefix] {count(lists.grocery)} [item-plurality(lists.grocery)] in your {listType} list.
+- ELSEIF: {listType == 'shopping'}
+    - [Count-prefix] {count(lists.shopping)} [item-plurality(lists.shopping)] in your {listType} list.
 
 > This template uses 'welcome-actions' which is not defined in this LG file. 
 > By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
 # Add-ToDo-ReadBack
 - ```
-@{lgTemplate("Help-prefix")}, I have added "@{dialog.itemTitle}" to your @{dialog.listType} list. @{lgTemplate("Count-readback")}
+@{lgTemplate("Help-prefix")}, I have added "@{dialog.itemTitle}" to your @{dialog.listType} list. @{lgTemplate("Count-readback", dialog.listType, user.lists)}
 @{lgTemplate("Welcome-Actions")}
 ```
 
