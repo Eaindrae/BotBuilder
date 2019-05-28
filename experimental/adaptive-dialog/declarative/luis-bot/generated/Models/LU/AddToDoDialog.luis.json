@@ -62,6 +62,12 @@
       "words": "add,create,put",
       "mode": true,
       "activated": true
+    },
+    {
+      "name": "todoItem",
+      "words": "todo,todos,to dos,todo list,todos list,item list,items collection,collection,list",
+      "mode": true,
+      "activated": true
     }
   ],
   "regex_features": [],
@@ -239,6 +245,50 @@
           "entity": "itemTitle",
           "startPos": 0,
           "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "add banana to the shopping list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "add orange to the grocery list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "add eat to the todo list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "add donut to the list",
+      "intent": "GetListTypeAndTitle",
+      "entities": [
+        {
+          "entity": "itemTitle",
+          "startPos": 4,
+          "endPos": 8
         }
       ]
     },
@@ -949,6 +999,16 @@
       "text": "I would like to see my todos list",
       "intent": "None",
       "entities": []
+    },
+    {
+      "text": "show my shopping list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what do i have on my grocery list?",
+      "intent": "None",
+      "entities": []
     }
   ],
   "patterns": [
@@ -994,6 +1054,10 @@
     },
     {
       "pattern": "add {itemTitle} to the {listType} list",
+      "intent": "GetListTypeAndTitle"
+    },
+    {
+      "pattern": "add {itemTitle} to the list",
       "intent": "GetListTypeAndTitle"
     },
     {

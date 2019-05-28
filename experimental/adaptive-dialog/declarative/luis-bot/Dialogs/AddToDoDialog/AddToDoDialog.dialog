@@ -41,7 +41,7 @@
             "steps": [
                 {
                     "$type": "Microsoft.IfCondition",
-                    "condition": "turn.entities.todoTitle == null && turn.entities.listType == null",
+                    "condition": "turn.entities.itemTitle == null && turn.entities.listType == null",
                     "steps": [
                         {
                             "$type": "Microsoft.SetProperty",
@@ -52,7 +52,7 @@
                 },
                 {
                     "$type": "Microsoft.SetProperty",
-                    "value": "@todoTitle[0]",
+                    "value": "@itemTitle[0]",
                     "property": "dialog.itemTitle"
                 },
                 {

@@ -62,6 +62,10 @@ $ addSomething : PhraseList interchangeable
 - {itemTitle=water the garden tomorrow}
 - {itemTitle=do groceries this weekend}
 - {itemTitle=learn to dance}
+- add {itemTitle=banana} to the shopping list
+- add {itemTitle=orange} to the grocery list
+- add {itemTitle=eat} to the todo list
+- add {itemTitle=donut} to the list
 > Add patterns
 - {itemTitle} is [my] (todo|to do)['s] title
 - {itemTitle} is [the] title of [(my|the)] todo
@@ -92,6 +96,7 @@ $ addSomething : PhraseList interchangeable
 - [please] add {itemTitle} to {listType} list
 - add {itemTitle} to {listType} [list]
 - add {itemTitle} to the {listType} list
+- add {itemTitle} to the list
 - [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
 > Include all utterances and phrases from the trigger intent as well
 - [Trigger phrases](./AddToDoDialog.lu#Add-todo)
@@ -126,21 +131,3 @@ $ addSomething : PhraseList interchangeable
 - undo
 
 [TodoPhraseList](../RootDialog/TodoPhraseList.lu)
-
-$ listType : todo = 
-- todos
-- to dos
-- todo list
-- todos list
-- to do list
-- tasks
-
-$ listType : grocery = 
-- grocery list
-- groceries
-
-$ listType : shopping = 
-- shopping list
-- things to buy
-- shop
-- things to shop

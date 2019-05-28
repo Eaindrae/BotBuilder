@@ -629,6 +629,16 @@
       "text": "I would like to see my todos list",
       "intent": "ViewToDoDialog",
       "entities": []
+    },
+    {
+      "text": "show my shopping list",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "what do i have on my grocery list?",
+      "intent": "ViewToDoDialog",
+      "entities": []
     }
   ],
   "patterns": [

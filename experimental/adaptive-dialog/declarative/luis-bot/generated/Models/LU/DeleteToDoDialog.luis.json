@@ -26,7 +26,14 @@
   "composites": [],
   "closedLists": [],
   "regex_entities": [],
-  "model_features": [],
+  "model_features": [
+    {
+      "name": "todoItem",
+      "words": "todo,todos,to dos,todo list,todos list,item list,items collection,collection,list",
+      "mode": true,
+      "activated": true
+    }
+  ],
   "regex_features": [],
   "utterances": [
     {
@@ -479,6 +486,16 @@
     },
     {
       "text": "I would like to see my todos list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show my shopping list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what do i have on my grocery list?",
       "intent": "None",
       "entities": []
     }

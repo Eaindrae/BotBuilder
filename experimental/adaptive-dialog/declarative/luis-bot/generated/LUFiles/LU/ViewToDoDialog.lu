@@ -17,7 +17,7 @@
 - Shopping [**] {count} (item|items) [**]
 
 
-## None
+## Help
 - What can I say?
 - Who are you?
 - I need help
@@ -30,11 +30,17 @@
 - well, I do not know what my todo's title is
 - I do not know
 - can you please help?
+
+
+## Greeting
 - hi
 - hello
 - hiya
 - how are you?
 - how do you do?
+
+
+## Cancel
 - cancel
 - cancel all
 - stop that
@@ -51,6 +57,9 @@
 - Let's just leave it as is
 - I do not wish to delete my todo anymore
 - Keep my todos as is
+
+
+## None
 - add
 - Add todo
 - add another one
@@ -97,6 +106,8 @@
 
 > # Phrase list definitions
 
+$todoItem:phraseList
+- todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
 
 > # List entities
 

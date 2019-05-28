@@ -4,6 +4,15 @@
       "name": "GetListType"
     },
     {
+      "name": "Help"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
       "name": "None"
     }
   ],
@@ -45,7 +54,14 @@
     }
   ],
   "regex_entities": [],
-  "model_features": [],
+  "model_features": [
+    {
+      "name": "todoItem",
+      "words": "todo,todos,to dos,todo list,todos list,item list,items collection,collection,list",
+      "mode": true,
+      "activated": true
+    }
+  ],
   "regex_features": [],
   "utterances": [
     {
@@ -100,167 +116,332 @@
     },
     {
       "text": "What can I say?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "Who are you?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "I need help",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "Not sure what I can do",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "What do you want me to say?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "What can you do?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "What can you help with?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "help please",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "What are my options?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "well, I do not know what my todo's title is",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "I do not know",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "can you please help?",
-      "intent": "None",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "hi",
-      "intent": "None",
+      "intent": "Greeting",
       "entities": []
     },
     {
       "text": "hello",
-      "intent": "None",
+      "intent": "Greeting",
       "entities": []
     },
     {
       "text": "hiya",
-      "intent": "None",
+      "intent": "Greeting",
       "entities": []
     },
     {
       "text": "how are you?",
-      "intent": "None",
+      "intent": "Greeting",
       "entities": []
     },
     {
       "text": "how do you do?",
-      "intent": "None",
+      "intent": "Greeting",
       "entities": []
     },
     {
       "text": "cancel",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel all",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "stop that",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "do not do it",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "abort",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "please stop what you are doing",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I changed my mind",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel add todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel that",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I do not want to add a todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "No todo for me",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Cancel this",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel delete todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Let's just leave it as is",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I do not wish to delete my todo anymore",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Keep my todos as is",
-      "intent": "None",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "What can I say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Who are you?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What do you want me to say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can you do?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can you help with?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What are my options?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "well, I do not know what my todo's title is",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I do not know",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you please help?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how do you do?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel all",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do not do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please stop what you are doing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I changed my mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel add todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not want to add a todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "No todo for me",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Cancel this",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel delete todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Let's just leave it as is",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not wish to delete my todo anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Keep my todos as is",
+      "intent": "Cancel",
       "entities": []
     },
     {

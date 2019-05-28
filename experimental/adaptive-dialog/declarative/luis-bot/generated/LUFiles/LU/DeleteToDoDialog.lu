@@ -100,6 +100,8 @@
 - can you show my todo
 - see todo
 - I would like to see my todos list
+- show my shopping list
+- what do i have on my grocery list?
 
 
 > # Entity definitions
@@ -116,6 +118,8 @@ $PREBUILT:ordinal
 
 > # Phrase list definitions
 
+$todoItem:phraseList
+- todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
 
 > # List entities
 

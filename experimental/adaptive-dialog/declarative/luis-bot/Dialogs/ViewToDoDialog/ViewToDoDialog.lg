@@ -1,7 +1,7 @@
 ﻿# get-view-list-type
 - ```
 Please pick the list type you would like to see..
-[Suggestions=Todo @{lgTemplate("Item-count", user.lists.todo)} | Grocery @{lgTemplate("Item-count",user.lists.shopping)} | Shopping @{lgTemplate("Item-count", user.lists.shopping)} | Cancel]
+[Suggestions=Todo @{lgTemplate("Item-count", user.lists.todo)} | Grocery @{lgTemplate("Item-count",user.lists.grocery)} | Shopping @{lgTemplate("Item-count", user.lists.shopping)} | Cancel]
 ```
 
 # Item-count (list)

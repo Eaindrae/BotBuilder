@@ -18,6 +18,10 @@
 - {itemTitle=water the garden tomorrow}
 - {itemTitle=do groceries this weekend}
 - {itemTitle=learn to dance}
+- add {itemTitle=banana} to the shopping list
+- add {itemTitle=orange} to the grocery list
+- add {itemTitle=eat} to the todo list
+- add {itemTitle=donut} to the list
 - Shopping
 - todo
 - grocery
@@ -62,6 +66,7 @@
 - [please] add {itemTitle} to {listType} list
 - add {itemTitle} to {listType} [list]
 - add {itemTitle} to the {listType} list
+- add {itemTitle} to the list
 - [(add|that would be)] ["]{itemTitle}["] to [(my|the)] {listType}
 - Please remember [to] {itemTitle}
 - I need you to remember [that] {itemTitle}
@@ -158,6 +163,8 @@
 - can you show my todo
 - see todo
 - I would like to see my todos list
+- show my shopping list
+- what do i have on my grocery list?
 
 
 > # Entity definitions
@@ -172,6 +179,8 @@ $itemTitle:simple
 
 $addSomething:phraseList
 - add,create,put
+$todoItem:phraseList
+- todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
 
 > # List entities
 

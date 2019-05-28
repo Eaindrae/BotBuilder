@@ -16,24 +16,8 @@
 - can you show my todo
 - see todo
 - I would like to see my todos list
-
-$ listType : todo = 
-- todos
-- to dos
-- todo list
-- todos list
-- to do list
-- tasks
-
-$ listType : grocery = 
-- grocery list
-- groceries
-
-$ listType : shopping = 
-- shopping list
-- things to buy
-- shop
-- things to shop
+- show my shopping list
+- what do i have on my grocery list?
 
 # GetListType
 - todo
