@@ -61,7 +61,4 @@ Please pick the list type to add the item to
 ```
 
 # Cancel-add-todo
-- ```
-@{lgTemplate("Help-prefix")}, I've cancelled that.
-@{lgTemplate("Welcome-Actions")}
-```
+- [Help-prefix], I've cancelled that.\n[Welcome-Actions]

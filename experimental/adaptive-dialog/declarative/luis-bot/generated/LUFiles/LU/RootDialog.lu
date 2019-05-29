@@ -77,12 +77,12 @@
 
 ## DeleteToDoDialog
 - Remove todo
-- Mark {todoTitle=buy milk} as complete
-- Flag {todoTitle=first one} as done
-- Remove {todoTitle=finish this demo} from the todo list
+- Mark {itemTitle=buy milk} as complete
+- Flag {itemTitle=first one} as done
+- Remove {itemTitle=finish this demo} from the todo list
 - remove another one
 - remove
-- clear my todo named {todoTitle=get a new car}
+- clear my todo named {itemTitle=get a new car}
 - I'm done with the first todo
 - I finished the {todoIdx=last} todo
 - Remove the first todo
@@ -92,12 +92,14 @@
 - Remove all my todo
 - Forget the list
 - Purge the todo list
-- I did {todoTitle_patternAny}
-- I completed {todoTitle_patternAny}
-- Mark {todoTitle_patternAny} as complete
-- Remove {todoTitle_patternAny} from my [todo] list
-- [Please] delete {todoTitle_patternAny} from the list
-- Delete {todoTitle_patternAny}
+- Remove item
+- I did {itemTitle}
+- I completed {itemTitle}
+- Mark {itemTitle} as complete
+- Remove {itemTitle} from my [todo] list
+- [Please] delete {itemTitle} from the list
+- Delete {itemTitle}
+- Remove {itemTitle}
 
 
 ## ViewToDoDialog
@@ -126,8 +128,6 @@
 
 $itemTitle:simple
 
-$todoTitle:simple
-
 $todoIdx:simple
 
 
@@ -138,10 +138,12 @@ $PREBUILT:ordinal
 
 > # Phrase list definitions
 
-$todoItem:phraseList
+$todoItem:phraseList interchangeable
 - todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
-$addSomething:phraseList
+$addSomething:phraseList interchangeable
 - add,create,put
+$removeSomething:phraseList interchangeable
+- remove,delete,erase,check off,clear
 
 > # List entities
 

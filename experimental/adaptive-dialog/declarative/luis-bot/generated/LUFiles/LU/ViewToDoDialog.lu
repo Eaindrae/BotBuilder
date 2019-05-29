@@ -96,6 +96,7 @@
 - Remove all my todo
 - Forget the list
 - Purge the todo list
+- Remove item
 
 
 > # Entity definitions
@@ -106,7 +107,7 @@
 
 > # Phrase list definitions
 
-$todoItem:phraseList
+$todoItem:phraseList interchangeable
 - todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
 
 > # List entities

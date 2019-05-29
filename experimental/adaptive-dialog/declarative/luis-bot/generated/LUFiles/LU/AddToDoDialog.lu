@@ -22,7 +22,6 @@
 - add {itemTitle=orange} to the grocery list
 - add {itemTitle=eat} to the todo list
 - add {itemTitle=donut} to the list
-- Shopping
 - todo
 - grocery
 - shopping
@@ -146,6 +145,7 @@
 - Remove all my todo
 - Forget the list
 - Purge the todo list
+- Remove item
 - show my todo
 - can you please show my todos?
 - please show my todo list
@@ -177,9 +177,9 @@ $itemTitle:simple
 
 > # Phrase list definitions
 
-$addSomething:phraseList
+$addSomething:phraseList interchangeable
 - add,create,put
-$todoItem:phraseList
+$todoItem:phraseList interchangeable
 - todo,todos,to dos,todo list,todos list,item list,items collection,collection,list
 
 > # List entities

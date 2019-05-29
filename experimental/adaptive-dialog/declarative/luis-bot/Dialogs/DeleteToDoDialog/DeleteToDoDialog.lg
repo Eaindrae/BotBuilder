@@ -1,16 +1,14 @@
 ﻿# Get-ToDo-Title-To-Delete
-- ```
-Ok, which one you would like to delete?
-[Suggestions=Help | Cancel]
-```
+- Ok, which item you would like to delete?\n\[Suggestions=Help | Cancel\]
 
 # Delete-readBack
-- ```
-Ok, I've removed your todo titled "@{turn.todoTitle}".
-```
+- Ok, I've removed your todo titled "{dialog.itemTitle}".
 
 # Delete-Empty-List
-- You do not have any items in your todo list.
+- You do not have any items in your {dialog.listType} list.
 
 # Todo-not-found
-- Sorry, I did not find a todo titled {turn.todoTitle} in your todos list.
+- Sorry, I did not find a todo titled {dialog.itemTitle} in your todos list.
+
+# Get-List-Type-delete
+- Please pick the list type to remove the item from\n\[Suggestions=Todo | Grocery | Shopping\]

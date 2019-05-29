@@ -623,6 +623,11 @@
       "text": "Purge the todo list",
       "intent": "None",
       "entities": []
+    },
+    {
+      "text": "Remove item",
+      "intent": "None",
+      "entities": []
     }
   ],
   "patterns": [

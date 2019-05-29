@@ -75,7 +75,6 @@ $ addSomething : PhraseList interchangeable
 - (sure|ok)[(,|.)] the title is {itemTitle}
 - {itemTitle}
 > Examples of what user can say when prompted for List type.
-- Shopping
 - todo
 - grocery
 - shopping

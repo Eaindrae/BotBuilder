@@ -293,11 +293,6 @@
       ]
     },
     {
-      "text": "Shopping",
-      "intent": "GetListTypeAndTitle",
-      "entities": []
-    },
-    {
       "text": "todo",
       "intent": "GetListTypeAndTitle",
       "entities": []
@@ -912,6 +907,11 @@
     },
     {
       "text": "Purge the todo list",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Remove item",
       "intent": "None",
       "entities": []
     },
