@@ -121,6 +121,13 @@
                     ]
                 }
             ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.None.score <= 0.6",
+            "steps": [
+                
+            ]
         }
     ]
 }

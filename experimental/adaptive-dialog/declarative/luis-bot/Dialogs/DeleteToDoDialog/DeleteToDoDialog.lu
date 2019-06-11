@@ -28,10 +28,6 @@
 $ PREBUILT : ordinal
 
 # GetItemToDelete
-- the first one
-- last one
-- its the last one
-- I would like to delete the second item in my list
 - I need to delete {itemTitle=buy milk}
 - I have completed {itemTitle=finish this demo}
 - remove the item with title {itemTitle=water the yard}
@@ -40,35 +36,12 @@ $ PREBUILT : ordinal
 - (delete|remove) [the] item [with title] {itemTitle}
 - {itemTitle}
 - [please] remove {itemTitle} from (my|the) [todo] [list]
-- todo
-- grocery
-- shopping
-- to do list
-- remove it to my shopping list
-- please remove from the shopping list
-- that would be grocery
-- remove an item from the todo list
-- that would be the todo list
-- how about the shopping list
-- I would like to delete an item from the shopping list
-
 - {itemTitle=buy milk} is my todo's title
 - {itemTitle=pick up joe at 3pm} is the title of my todo
 - the title is {itemTitle=Eat when you are hungry}
 - yup, its {itemTitle=do groceries this weekend}
 - it is "{itemTitle=learn to dance}"
 > Add more samples for machine learned todo title entity
-- {itemTitle=prep for meeting with John}
-- {itemTitle=water plants on saturday}
-- {itemTitle=do groceries}
-- {itemTitle=pick up Ben on the way home}
-- {itemTitle=call mom}
-- {itemTitle=get dog treats}
-- {itemTitle=pick up joe at 3pm}
-- {itemTitle=Eat when you are hungry}
-- {itemTitle=water the garden tomorrow}
-- {itemTitle=do groceries this weekend}
-- {itemTitle=learn to dance}
 - remove {itemTitle=banana} from the shopping list
 - delete {itemTitle=orange} from the grocery list
 - check off {itemTitle=eat} from the todo list
