@@ -14,9 +14,15 @@
             "property": "dialog.listType"
         },
         {
-            "$type": "Microsoft.TextInput",
+            "$type": "Microsoft.ChoiceInput",
+            "choices": [
+                {"value": "Todo"},
+                {"value": "Shopping"},
+                {"value": "Grocery"}
+            ],
             "property": "dialog.listType",
-            "prompt": "[Get-List-Type]"
+            "prompt": "[Get-List-Type-delete]",
+            "retryPrompt": "Sorry, that does not work. Let's try again..\\n[Get-List-Type-delete]"
         },
         {
             "$type": "Microsoft.IfCondition",

@@ -5,6 +5,7 @@
     "rules": [
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.Greeting.score >= 0.6",
             "intent": "Greeting",
             "steps": [
                 {
@@ -15,6 +16,7 @@
         },
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.Help.score >= 0.6",
             "intent": "Help",
             "steps": [
                 {
@@ -25,6 +27,7 @@
         },
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.Cancel.score >= 0.6",
             "intent": "Cancel",
             "steps": [
                 {
@@ -42,6 +45,7 @@
         },
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.Add_todo.score >= 0.6",
             "intent": "Add_todo",
             "steps": [
                 "AddToDoDialog"         
@@ -49,6 +53,7 @@
         },
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.DeleteToDoDialog.score >= 0.6",
             "intent": "DeleteToDoDialog",
             "steps": [
                 "DeleteToDoDialog"         
@@ -56,9 +61,19 @@
         },
         {
             "$type": "Microsoft.IntentRule",
+            "constraint": "turn.dialogEvent.value.intents.ViewToDoDialog.score >= 0.6",
             "intent": "ViewToDoDialog",
             "steps": [
                 "ViewToDoDialog"         
+            ]
+        },
+        {
+            "$type": "Microsoft.UnknownIntentRule",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Sorry, I did not get that. Can you try to re-phrase?"
+                }
             ]
         }
     ]

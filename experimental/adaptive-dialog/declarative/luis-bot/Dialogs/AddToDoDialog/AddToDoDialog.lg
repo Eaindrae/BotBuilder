@@ -55,10 +55,7 @@ Please pick the list type to add the item to
 > This template uses 'welcome-actions' which is not defined in this LG file. 
 > By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
 # Add-ToDo-ReadBack
-- ```
-@{lgTemplate("Help-prefix")}, I have added "@{dialog.itemTitle}" to your @{dialog.listType} list. @{lgTemplate("Count-readback", dialog.listType, user.lists)}
-@{lgTemplate("Welcome-Actions")}
-```
+- [Help-prefix], I have added "{dialog.itemTitle}" to your {dialog.listType} list. \nYou have {count(user.lists[dialog.listType])} [item-plurality(user.lists[dialog.listType])] in your {dialog.listType} list.\n[Welcome-Actions]
 
 # Cancel-add-todo
 - [Help-prefix], I've cancelled that.\n[Welcome-Actions]
