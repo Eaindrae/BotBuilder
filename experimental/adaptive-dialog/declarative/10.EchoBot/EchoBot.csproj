@@ -8,25 +8,44 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jurassic" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.5.0-Preview-2019-05-02-02" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.1.0-beta1-final" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.20" />
+    <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.0.3" />
   </ItemGroup>
 
     <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include=".deployment">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="deploy.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EchoBot.csproj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+
+    <ItemGroup>
+      <None Remove=".deployment" />
+      <None Remove="deploy.cmd" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Azure\Microsoft.Bot.Builder.Azure.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Debugging\Microsoft.Bot.Builder.Dialogs.Debugging.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Declarative\Microsoft.Bot.Builder.Dialogs.Declarative.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration.Renderer\Microsoft.Bot.Builder.LanguageGeneration.Renderer.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.LanguageGeneration\Microsoft.Bot.Builder.LanguageGeneration.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
+      <ProjectReference Include="..\..\..\..\..\..\..\code\botbuilder-dotnet\libraries\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj" />
+    </ItemGroup>
 
 </Project>
