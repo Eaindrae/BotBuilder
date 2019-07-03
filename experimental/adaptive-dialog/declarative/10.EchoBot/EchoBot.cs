@@ -30,6 +30,7 @@ namespace Microsoft.BotBuilderSamples
     public class EchoBot : ActivityHandler
     {
         private IStatePropertyAccessor<DialogState> dialogStateAccessor;
+        private IStatePropertyAccessor<string> environmentStateAccessor;
         private ConcurrentDictionary<string, AdaptiveDialog> rootDialogs;
         private readonly ConcurrentDictionary<string, ResourceExplorer> resourceExplorers;
         private readonly IConfiguration config;
@@ -37,6 +38,7 @@ namespace Microsoft.BotBuilderSamples
         {
             this.config = config;
             this.dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
+            this.environmentStateAccessor = conversationState.CreateProperty<string>("environment");
             this.resourceExplorers = new ConcurrentDictionary<string, ResourceExplorer>();
 
             var artifactRoot = Path.Combine(hostingEnvironment.ContentRootPath, config.GetSection("bot")["artifacts"]);
@@ -84,7 +86,10 @@ namespace Microsoft.BotBuilderSamples
 
         private IEnumerable<string> Environments { get
             {
-                return this.config.GetSection("bot")?.GetValue<string[]>("environments") ?? new[] { "production" };
+                return this.config.GetSection("bot")
+                    ?.GetSection("environments")
+                    ?.Get<string[]>()
+                    ?? new[] { "production" };
             }
         }
 
@@ -104,12 +109,7 @@ namespace Microsoft.BotBuilderSamples
         protected async override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             // check if the context specified an environment
-            var dialogState = await this.dialogStateAccessor.GetAsync(turnContext).ConfigureAwait(false);
-            var env = (dialogState?.ConversationState?.ContainsKey("environment") ?? false) ? dialogState.ConversationState["environment"] as string : "production";
-            if (dialogState == null)
-            {
-                await dialogStateAccessor.SetAsync(turnContext, new DialogState()).ConfigureAwait(false);
-            }
+            var env = await this.environmentStateAccessor.GetAsync(turnContext, () => "production").ConfigureAwait(false);
             var rootDialog = rootDialogs[env];
             await rootDialog.OnTurnAsync(turnContext, null, cancellationToken).ConfigureAwait(false);
         }
