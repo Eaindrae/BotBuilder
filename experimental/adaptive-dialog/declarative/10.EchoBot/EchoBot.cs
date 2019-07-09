@@ -34,6 +34,7 @@ namespace Microsoft.BotBuilderSamples
         private ConcurrentDictionary<string, AdaptiveDialog> rootDialogs;
         private readonly ConcurrentDictionary<string, ResourceExplorer> resourceExplorers;
         private readonly IConfiguration config;
+
         public EchoBot(ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration config, IHostingEnvironment hostingEnvironment)
         {
             this.config = config;
@@ -64,8 +65,9 @@ namespace Microsoft.BotBuilderSamples
                             return rp;
                         });
 
-                    explorer.Changed += (paths) =>
+                    explorer.Changed += (resources) =>
                     {
+                        var paths = resources.Select(x => x.Id);
                         if (paths.Any(p => Path.GetExtension(p) == ".dialog"))
                         {
                             Task.Run(() =>
@@ -111,7 +113,7 @@ namespace Microsoft.BotBuilderSamples
             // check if the context specified an environment
             var env = await this.environmentStateAccessor.GetAsync(turnContext, () => "production").ConfigureAwait(false);
             var rootDialog = rootDialogs[env];
-            await rootDialog.OnTurnAsync(turnContext, null, cancellationToken).ConfigureAwait(false);
+            await new DialogManager(rootDialog).OnTurnAsync(turnContext, null, cancellationToken).ConfigureAwait(false);
         }
 
         protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
