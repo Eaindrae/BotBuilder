@@ -1,0 +1,20 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "autoEndDialog": false,
+    "steps": [
+        {
+            "$type": "Microsoft.TextInput",
+            "prompt": "which environment would you like to use (production or staging)?",
+            "alwaysPrompt": true,
+            "property": "conversation.environment"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "environment set to {conversation.environment}"
+        },
+        {
+            "$type": "Microsoft.CancelAllDialogs"
+        }
+    ]
+}
