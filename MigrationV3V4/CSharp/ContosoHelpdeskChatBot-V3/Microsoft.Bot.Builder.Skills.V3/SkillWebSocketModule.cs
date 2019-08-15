@@ -1,14 +1,12 @@
-﻿namespace ContosoHelpdeskChatBot
-{
-    using Autofac;
-    using ContosoHelpdeskChatBot.Skills;
-    using Dialogs;
-    using Microsoft.Bot.Builder.Autofac.Base;
-    using Microsoft.Bot.Builder.Dialogs.Internals;
-    using Microsoft.Bot.Builder.Scorables;
-    using Microsoft.Bot.Connector;
+﻿using System;
+using Autofac;
+using Microsoft.Bot.Builder.Autofac.Base;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
-    public class GlobalMessageHandlersBotModule : Module
+namespace Microsoft.Bot.Builder.Skills.V3
+{
+    public class SkillWebSocketModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -27,10 +25,10 @@
                 )
                 .InstancePerLifetimeScope();
 
-            builder
-                .Register(c => new CancelScorable(c.Resolve<IDialogTask>()))
-                .As<IScorable<IActivity, double>>()
-                .InstancePerLifetimeScope();
+            WebSocketServer nullSocketServer = null;
+            builder.Register(context => nullSocketServer);
+            builder.Register<Action<WebSocketServer>>(context => newInstance => nullSocketServer = newInstance)
+                     .InstancePerLifetimeScope();
         }
     }
 }

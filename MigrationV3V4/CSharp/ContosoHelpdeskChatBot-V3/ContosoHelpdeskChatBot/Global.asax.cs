@@ -4,13 +4,12 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Azure;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
+using Autofac.Integration.WebApi;
+using System.Reflection;
+using ContosoHelpdeskChatBot.Dialogs;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Skills.V3;
 
 namespace ContosoHelpdeskChatBot
 {
@@ -21,7 +20,6 @@ namespace ContosoHelpdeskChatBot
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             BotConfig.UpdateConversationContainer();
-            this.RegisterBotModules();
 
             log4net.Config.XmlConfigurator.Configure();
         }
@@ -37,6 +35,9 @@ namespace ContosoHelpdeskChatBot
                 Conversation.UpdateContainer(
                            builder =>
                            {
+                               builder.RegisterModule(new ReflectionSurrogateModule());
+                               builder.RegisterModule<SkillWebSocketModule>();
+
                                builder.Register(c => store)
                                          .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                                          .AsSelf()
@@ -49,18 +50,14 @@ namespace ContosoHelpdeskChatBot
                                           .AsSelf()
                                           .InstancePerLifetimeScope();
 
+                               builder.Register(c => new CancelScorable(c.Resolve<IDialogTask>()))
+                                    .As<IScorable<IActivity, double>>()
+                                    .InstancePerLifetimeScope();
 
+                               builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
                            });
+                GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(Conversation.Container);
             }
-        }
-
-        private void RegisterBotModules()
-        {
-            Conversation.UpdateContainer(builder =>
-            {
-                builder.RegisterModule(new ReflectionSurrogateModule());
-                builder.RegisterModule<GlobalMessageHandlersBotModule>();
-            });
         }
     }
 }

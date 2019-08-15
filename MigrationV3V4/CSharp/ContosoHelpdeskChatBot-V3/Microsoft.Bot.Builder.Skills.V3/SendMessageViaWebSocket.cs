@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.StreamingExtensions;
 
-namespace ContosoHelpdeskChatBot.Skills
+namespace Microsoft.Bot.Builder.Skills.V3
 {
-    //
-    // Summary:
-    //     This IPostToBot service converts any unhandled exceptions to a message sent to
-    //     the user.
     public sealed class SendMessageViaWebSocket : IBotToUser
     {
         private readonly IBotToUser _inner;
-        public static Dictionary<string, List<IMessageActivity>> Messages = new Dictionary<string, List<IMessageActivity>>();
+        ILifetimeScope _scope;
 
-        public SendMessageViaWebSocket(IBotToUser inner)
+        public SendMessageViaWebSocket(IBotToUser inner, ILifetimeScope scope)
         {
             SetField.NotNull(out this._inner, nameof(inner), inner);
+            SetField.NotNull(out this._scope, nameof(scope), scope);
         }
 
         public IMessageActivity MakeMessage()
@@ -45,8 +42,9 @@ namespace ContosoHelpdeskChatBot.Skills
                 var requestPath = $"/activities/{message.Id}";
                 var request = StreamingRequest.CreatePost(requestPath);
                 request.SetBody(message);
-
-                await MessagesController.Server.SendAsync(request);
+                
+                var server = _scope.Resolve<Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer>();
+                await server.SendAsync(request);
             }
         }
     }
