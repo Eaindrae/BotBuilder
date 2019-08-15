@@ -49,9 +49,8 @@ namespace Microsoft.Bot.Builder.Skills.V3
 
             var activity = JsonConvert.DeserializeObject<Activity>(body);
 
-            await _activityProcessor.ProcessActivityAsync(activity);
-
-            response.StatusCode = (int)HttpStatusCode.OK;
+            var responseMessage = await _activityProcessor.ProcessActivityAsync(activity);
+            response.StatusCode = (int)responseMessage.StatusCode;
             return response;
         }
     }

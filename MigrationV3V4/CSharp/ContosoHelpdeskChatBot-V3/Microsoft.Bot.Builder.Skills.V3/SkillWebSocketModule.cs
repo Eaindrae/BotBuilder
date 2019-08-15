@@ -1,8 +1,5 @@
-﻿using System;
-using Autofac;
-using Microsoft.Bot.Builder.Autofac.Base;
+﻿using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
 namespace Microsoft.Bot.Builder.Skills.V3
 {
@@ -12,23 +9,20 @@ namespace Microsoft.Bot.Builder.Skills.V3
         {
             base.Load(builder);
 
-            // Intecept all sent messages so we can send out via WebSockets (SendMessageViaWebSocket)
-
-            builder.RegisterKeyedType<SendMessageViaWebSocket, IBotToUser>().InstancePerLifetimeScope();
+            // Replace AlwaysSendDirect_BotToUser registration with SendMessageViaWebSocket
             builder
-                .RegisterAdapterChain<IBotToUser>
-                (
-                    typeof(AlwaysSendDirect_BotToUser),
-                    typeof(MapToChannelData_BotToUser),
-                    typeof(LogBotToUser),
-                    typeof(SendMessageViaWebSocket)
-                )
+                   .RegisterType<SendMessageViaWebSocket>()
+                   .Keyed<IBotToUser>(typeof(AlwaysSendDirect_BotToUser))
+                   .InstancePerLifetimeScope();
+            
+            builder
+                .RegisterType<WebSocketServerContainer>()
                 .InstancePerLifetimeScope();
 
-            WebSocketServer nullSocketServer = null;
-            builder.Register(context => nullSocketServer);
-            builder.Register<Action<WebSocketServer>>(context => newInstance => nullSocketServer = newInstance)
-                     .InstancePerLifetimeScope();
+            //WebSocketServer nullSocketServer = null;
+            //builder.Register(context => nullSocketServer);
+            //builder.Register<Action<WebSocketServer>>(context => newInstance => nullSocketServer = newInstance)
+            //         .InstancePerLifetimeScope();
         }
     }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.V3;
 using Microsoft.Bot.Connector;
@@ -21,15 +16,13 @@ namespace ContosoHelpdeskChatBot
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
+        [Route("[action]")]
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            await ProcessActivityAsync(activity);
-
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
+            return await ProcessActivityAsync(activity);
         }
 
-        public override async Task ProcessActivityAsync(Activity activity)
+        public override async Task<HttpResponseMessage> ProcessActivityAsync(Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
             {
@@ -39,6 +32,8 @@ namespace ContosoHelpdeskChatBot
             {
                 HandleSystemMessage(activity);
             }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         private Activity HandleSystemMessage(Activity message)

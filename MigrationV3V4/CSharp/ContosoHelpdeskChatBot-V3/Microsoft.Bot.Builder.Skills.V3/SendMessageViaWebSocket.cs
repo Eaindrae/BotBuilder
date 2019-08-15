@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
@@ -11,41 +12,47 @@ namespace Microsoft.Bot.Builder.Skills.V3
 {
     public sealed class SendMessageViaWebSocket : IBotToUser
     {
-        private readonly IBotToUser _inner;
-        ILifetimeScope _scope;
-
-        public SendMessageViaWebSocket(IBotToUser inner, ILifetimeScope scope)
+        IConnectorClient _client;
+        private readonly IMessageActivity _toBot;
+        
+        public SendMessageViaWebSocket(IMessageActivity toBot, IConnectorClient client)
         {
-            SetField.NotNull(out this._inner, nameof(inner), inner);
-            SetField.NotNull(out this._scope, nameof(scope), scope);
+            SetField.NotNull(out this._toBot, nameof(toBot), toBot);
+            SetField.NotNull(out this._client, nameof(client), client);
         }
 
         public IMessageActivity MakeMessage()
         {
-            return this._inner.MakeMessage();
+            var toBotActivity = (Activity)this._toBot;
+            return toBotActivity.CreateReply();
         }
 
         public async Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = default)
         {
-            await Task.Factory.StartNew(() => SendViaWebSocket(message, cancellationToken)).ConfigureAwait(false);
+            var serverContainer = Conversation.Container.Resolve<WebSocketServerContainer>();
+            if (serverContainer.Server == null)
+            {
+                await this._client.Conversations.ReplyToActivityAsync((Activity)message, cancellationToken);
+            }
+            else
+            {
+                await Task.Factory.StartNew(() => SendViaWebSocket(serverContainer.Server, message, cancellationToken)).ConfigureAwait(false);
+            }
         }
 
-        private async Task SendViaWebSocket(IMessageActivity message, CancellationToken cancellationToken)
+        private async Task SendViaWebSocket(StreamingExtensions.Transport.WebSockets.WebSocketServer server,
+                                    IMessageActivity message, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrWhiteSpace(message?.Text))
+            if (string.IsNullOrWhiteSpace(message.Id))
             {
-                if (string.IsNullOrWhiteSpace(message.Id))
-                {
-                    message.Id = Guid.NewGuid().ToString("n");
-                }
-
-                var requestPath = $"/activities/{message.Id}";
-                var request = StreamingRequest.CreatePost(requestPath);
-                request.SetBody(message);
-                
-                var server = _scope.Resolve<Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer>();
-                await server.SendAsync(request);
+                message.Id = Guid.NewGuid().ToString("n");
             }
+
+            var requestPath = $"/activities/{message.Id}";
+            var request = StreamingRequest.CreatePost(requestPath);
+            request.SetBody(message);
+
+            await server.SendAsync(request);
         }
     }
 }

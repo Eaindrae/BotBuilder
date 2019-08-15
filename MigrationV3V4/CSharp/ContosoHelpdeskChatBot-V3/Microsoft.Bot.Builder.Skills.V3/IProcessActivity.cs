@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Skills.V3
 {
-    interface IProcessActivity
+    public interface IProcessActivity
     {
-        Task ProcessActivityAsync(Activity activity);
+        Task<HttpResponseMessage> ProcessActivityAsync(Activity activity);
     }
 }
