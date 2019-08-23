@@ -14,11 +14,13 @@ namespace Microsoft.Bot.Builder.Skills.V3
     {
         IConnectorClient _client;
         private readonly IMessageActivity _toBot;
-        
-        public SendMessageViaWebSocket(IMessageActivity toBot, IConnectorClient client)
+        private readonly ILifetimeScope _scope;
+
+        public SendMessageViaWebSocket(IMessageActivity toBot, IConnectorClient client, ILifetimeScope scope)
         {
             SetField.NotNull(out this._toBot, nameof(toBot), toBot);
             SetField.NotNull(out this._client, nameof(client), client);
+            SetField.NotNull(out this._scope, nameof(scope), scope);
         }
 
         public IMessageActivity MakeMessage()
@@ -29,7 +31,7 @@ namespace Microsoft.Bot.Builder.Skills.V3
 
         public async Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = default)
         {
-            var serverContainer = Conversation.Container.Resolve<WebSocketServerContainer>();
+            var serverContainer = _scope.Resolve<WebSocketServerContainer>();
             if (serverContainer.Server == null)
             {
                 await this._client.Conversations.ReplyToActivityAsync((Activity)message, cancellationToken);

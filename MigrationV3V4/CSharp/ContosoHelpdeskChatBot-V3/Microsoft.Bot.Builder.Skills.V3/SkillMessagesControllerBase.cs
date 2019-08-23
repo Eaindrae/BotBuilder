@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills.V3
             if (currentContext.IsWebSocketRequest ||
                 currentContext.IsWebSocketRequestUpgrading)
             {
-                currentContext.AcceptWebSocketRequest(ProcessWebsocketSession) ;
+                currentContext.AcceptWebSocketRequest(ProcessWebsocketSession);
             }
 
             return Request.CreateResponse(HttpStatusCode.SwitchingProtocols);
@@ -32,27 +32,22 @@ namespace Microsoft.Bot.Builder.Skills.V3
             // TODO Validate Authorization Header
             //if (context.Headers["Authorization"] != null)
             //{}
-            WebSocket socket = context.WebSocket;
 
-            var handler = new SkillWebSocketRequestHandler(this);
-            var server = new Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer(socket, handler);
-            SkillWebSocketRequestHandler.Servers.TryAdd(server.GetHashCode().ToString(), server);
+            using (var scope = Conversation.Container.BeginLifetimeScope())
+            {
+                WebSocket socket = context.WebSocket;
 
-            // Update the current WebSocketServer in the container, so SendMessageViaWebSocket.SendViaWebSocket is
-            // able to resolve the correct socket server
-            var serverContainer = Conversation.Container.Resolve<WebSocketServerContainer>();
-            serverContainer.Server = server;
-            server.Disconnected += Server_Disconnected;
-
-            var startListening = server.StartAsync();
-            Task.WaitAll(startListening);
-        }
-
-        private void Server_Disconnected(object sender, Microsoft.Bot.StreamingExtensions.Transport.DisconnectedEventArgs e)
-        {
-            var asServer = sender as Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer;
-
-            SkillWebSocketRequestHandler.Servers.TryRemove(asServer.GetHashCode().ToString(), out asServer);
+                var handler = new SkillWebSocketRequestHandler(this);
+                var server = new Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer(socket, handler);
+                
+                // Update the current WebSocketServer in the container, so SendMessageViaWebSocket.SendViaWebSocket is
+                // able to resolve the correct socket server
+                var serverContainer = scope.Resolve<WebSocketServerContainer>();
+                serverContainer.Server = server;
+                
+                var startListening = server.StartAsync();
+                Task.WaitAll(startListening);
+            }
         }
     }
 }

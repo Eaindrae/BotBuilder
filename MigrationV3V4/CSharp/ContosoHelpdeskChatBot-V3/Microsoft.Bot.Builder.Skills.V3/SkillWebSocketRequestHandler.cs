@@ -17,9 +17,6 @@ namespace Microsoft.Bot.Builder.Skills.V3
 
     internal class SkillWebSocketRequestHandler : Microsoft.Bot.StreamingExtensions.RequestHandler
     {
-        // This dictionary keeps the WebSocketServers cached, so the socket can remain open.
-        public static ConcurrentDictionary<string, Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer> Servers = new ConcurrentDictionary<string, Microsoft.Bot.StreamingExtensions.Transport.WebSockets.WebSocketServer>();
-
         public string Id { get; set; }
         private IProcessActivity _activityProcessor;
 
