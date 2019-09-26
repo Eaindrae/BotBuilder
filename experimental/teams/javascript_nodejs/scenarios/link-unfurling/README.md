@@ -88,6 +88,7 @@ It's suggested you run the bot twice.  First with recording turned on, second wi
 
 ```bash
 # Install
+mkdir recordings
 npm install
 
 # Set record mode - true or false
@@ -106,6 +107,7 @@ npm start
 2. Type any valid https url, ie https://www.bing.com, wait until the url is bolded, hit the space key and you should see a thumbnail card for the url info populated, like below. 
    ![Sample Unfurl](./_images/1569017810114.png)
 3. If recording, as you send messages, you should see new text files in the `./recordings` directory.
+4. Type `exit` into the Teams bot if you want the bot to exit.
 
 ### Notes
 1. Url unfurls are cached.  Try using different https `.com` sites each time.
