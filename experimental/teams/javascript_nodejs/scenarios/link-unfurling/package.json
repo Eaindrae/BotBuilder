@@ -1,0 +1,36 @@
+{
+  "name": "teams-link-unfurling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc --build && node ./lib/index.js",
+    "build": "tsc --build",
+    "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^4.5.3",
+    "botbuilder-teams": "file:../../botbuilder-teams",
+    "dotenv": "^8.1.0",
+    "g": "^2.0.1",
+    "nock": "^11.3.5",
+    "node-fetch": "^2.6.0",
+    "node-mocks-http": "^1.8.0",
+    "path": "^0.12.7",
+    "restify": "^8.4.0",
+    "sinon": "^7.5.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1",
+    "@types/node-fetch": "^2.5.0",
+    "@types/request": "^2.48.1",
+    "@types/restify": "^7.2.7",
+    "nodemon": "^1.19.1",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.4"
+  }
+}
