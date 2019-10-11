@@ -69,10 +69,16 @@ if (nockHelper.isRecording()) {
             nockHelper.logRequest(req, 'link-unfurling');
             // Route to main dialog.
             await myBot.run(context);
-            //nockHelper.logResponse(res, 'link-unfurling')
         });
     });
 }
-else {
+else if (nockHelper.isPlaying()) {
     nockHelper.processRecordings('link-unfurling', adapter, myBot);
+}
+else if (nockHelper.isProxyHost()) {
+    // Create HTTP proxy server.
+    nockHelper.proxyRecordings();
+}
+else if (nockHelper.isProxyPlay()) {
+    nockHelper.proxyPlay(myBot);
 }

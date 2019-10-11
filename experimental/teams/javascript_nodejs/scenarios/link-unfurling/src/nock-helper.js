@@ -1,21 +1,11 @@
-// 
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// 
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+
 const assert = require('assert');
 var https = require('https');
 var http = require('http');
+var restify = require('restify');
 var OriginalClientRequest = http.ClientRequest; // HTTP ClientRequest before mocking by Nock
 var OriginalHttpsRequest = https.request;
 var OriginalHttpRequest = http.request;
@@ -27,22 +17,30 @@ var connector = require('botframework-connector');
 var NockClientRequest = http.ClientRequest; // HTTP ClientRequest mocked by Nock
 var NockHttpsRequest = https.request;
 var  NockHttpRequest = http.request;
-
-// The nock module should only be required once in all of the test infrastructure.
-// If the nock require/OriginalClientRequest/NockClientRequest dance is done in multiple
-// files, the nocked and unNocked http objects may get out of sync and break other tests.
-// To use nock in your tests, use the following pattern:
-//    - In all suite setups, call nockHttp(). This will enable nock on the http object.
-//    - In all suite teardowns, call unNockHttp(). This will disable nock on the http object allowing other tests to run using the original http object.
-//    - make sure to 'require('nock') only once across all tests and share the instance by using nock-helper.nock
+var proxyhost = require('./nock-helper-proxyhost');
+var proxyplay = require('./nock-helper-proxyplay');
 
 exports.nock = nock;
 exports.testName = '';
+exports.testMode = ''; // RECORD | PLAY | PROXY_HOST | PROXY_PLAY:<server_name>
+exports.proxyRecordings = proxyhost.proxyRecordings;
+exports.proxyPlay = proxyplay.proxyPlay;
 
 // $env:AZURE_NOCK_RECORD="true"
 exports.isRecording = function() {
-    return process.env.AZURE_NOCK_RECORD === 'true' ? true : false;
+    return process.env.TEST_MODE === 'RECORD' ? true : false;
 }
+
+exports.isPlaying = function() {
+    return process.env.TEST_MODE === 'PLAY' ? true : false;
+}
+exports.isProxyHost = function() {
+    return process.env.TEST_MODE === 'PROXY_HOST' ? true : false;
+}
+exports.isProxyPlay = function() {
+    return process.env.TEST_MODE === 'PROXY_PLAY' ? true : false;
+}
+
 
 function fileName(reqType, testName) {
     var utcDate = new Date();
@@ -52,7 +50,26 @@ function fileName(reqType, testName) {
         utcDate.getUTCMilliseconds().toString().padStart(3, '0') + '-' + reqType + '-' + testName + '.json';
 }
 
+function validateTestMode() {
+    TEST_MODES = ['RECORD', 'PLAY', 'PROXY_HOST', 'PROXY_PLAY'];
+    testMode = process.env.TEST_MODE;
+    if (testMode) {
+        if (!TEST_MODES.includes(testMode.toUpperCase())) {
+            console.log(`ERROR: ${testMode} is not a valid TEST_MODE.`);
+            console.log(`'   Valid modes: ${TEST_MODES}.`);
+            throw "Invalid mode set.";
+        }
+    }
+    else {
+        // Default to RECORD
+        testMode = 'RECORD';
+        process.env.TEST_MODE = testMode;
+    }
+    console.log(`TEST_MODE: ${testMode}`)
+}
+
 exports.nockHttp = function(testNameDefault, recordingsPathRoot = './recordings') {
+    validateTestMode();
     testName = testNameDefault;
     http.ClientRequest = NockClientRequest;
     http.request = NockHttpRequest;
@@ -62,8 +79,7 @@ exports.nockHttp = function(testNameDefault, recordingsPathRoot = './recordings'
 
     // Follow autorest environment variables
     // https://github.com/microsoft/botbuilder-js/blob/master/tools/framework/suite-base.js#L66
-    const isRecording = process.env.AZURE_NOCK_RECORD === 'true' ? true : false;
-    if (isRecording) { 
+    if (exports.isRecording()) { 
         const nock_output_recording = content => {
             const filter_scopes = ['https://login.microsoftonline.com:443', 'https://login.botframework.com:443'];
             //const filter_scopes = [];
@@ -83,8 +99,7 @@ exports.nockHttp = function(testNameDefault, recordingsPathRoot = './recordings'
 };
 
 exports.logRequest = function(req, testName, recordingsPathRoot = './recordings') {
-    const isRecording = process.env.AZURE_NOCK_RECORD === 'true' ? true : false;
-    if (isRecording) {
+    if (exports.isRecording()) {
         var record = { 'type': 'request', 'url': req.url, 'method': req.method, 'headers': req.headers, 'body': req.body };
         // console.log('HEADERS:'+Object.getOwnPropertyNames(req));
         fs.appendFileSync(recordingsPathRoot + '/' + fileName('request', testName), JSON.stringify(record));
@@ -142,8 +157,8 @@ function setupInterceptorReplies(replies) {
     return response;
 }
 
-// Process Activity
-async function processActivity(activity, replies, adapter, myBot) { 
+// Process Activities locally.
+async function playRecordings(activity, replies, adapter, myBot) { 
     // Setup interceptor(s)
     nock_interceptors = setupInterceptorReplies(replies);
     
@@ -161,64 +176,58 @@ async function processActivity(activity, replies, adapter, myBot) {
         // Route to main dialog.
         await myBot.run(context);
     });
-
 }
 
-exports.processRecordings = function(testName, adapter, myBot) {
-    var http = require('http');
-    process.env.MicrosoftAppId = '';
-    process.env.MicrosoftAppPassword = '';
+exports.parseActivityBundles = function () {
     const sortedRecordings = fs.readdirSync("./recordings", "utf8")
                                 .map(item => {
                                     const path = `./recordings/${item}`;
                                     return { name: item, path: path, };
                                 })
                                 .sort((a, b) => a.name > b.name ? 1 : -1);
-
     var isFirstActivity = true;
     var currentActivity = null;
     var replies = [];
+    var activities = [];
+    
     async function processFile(data, index) {
         const req = JSON.parse(data);
         // Handle main activities coming into the bot (from Teams service)
         if (isIncomingActivityRequest(req)) {
             if (isFirstActivity == false) {
                 // Process previous activity.
-                await processActivity(currentActivity, replies, adapter, myBot);
+                activities.push({activity: currentActivity, replies: replies});
             }
             else {
                 isFirstActivity = false;
             }
-
-            // Set current activity.
-            // console.log('Setting CURRENT ACTIVITY: ');
-            // console.log('   url: ' + req.url);
-            // console.log('   msg type: ' + req.body.type);
-            // console.log('   text: ' + req.body.text);
             currentActivity = req;
-
-            // Clear old replies
             replies = [];
         }
         // Handle replies from the bot back to the Teams service
         else {
             // Buffer the replies
             replies.push(req);
-            // console.log('Buffering reply:' + req.method + ':' + req.scope + req.path + '| Text:' + req.text);
         }
         // If last request or reply, then drain.
         if (index >= sortedRecordings.length - 1 ) {
-            await processActivity(currentActivity, replies, adapter, myBot);
+            activities.push({activity: currentActivity, replies: replies});
         }
     }
 
-    // Walk through all the messages
-    console.log('PROCESSING FILES:')
     sortedRecordings.forEach(async (item, index) => {
-        console.log('   ' + item.name);
         data = fs.readFileSync(item.path, 'utf8');
         await processFile(data, index);
-    })
+    });
+    return activities;
+}
+
+
+exports.processRecordings = function(testName, adapter = null, myBot = null) {
+    const activityBundles = parseActivityBundles();
+    activityBundles.forEach(async (activityBundle, index) => {
+        await playRecordings(activityBundle.activity, activityBundle.replies, adapter, myBot);
+    });
 };
 
 exports.unNockHttp = function() {

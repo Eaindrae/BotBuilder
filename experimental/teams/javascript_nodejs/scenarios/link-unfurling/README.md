@@ -2,6 +2,98 @@
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it demonstrate link unfurling feature in Teams channel.
 
+## Recordings for integration testing.
+This bot demonstrates how to perform recordings with Teams for integration testing.  See [background info](https://github.com/daveta/teams/blob/master/README.md) for more information.  
+
+### Recording
+See [the prequisites for running this sample](#prerequisites) to completely set up ngrok.
+
+Recordings use the [nock](https://github.com/nock/nock) to capture traffic from the client.  
+
+```bash
+# Install
+mkdir recordings
+npm install
+
+# Set record mode
+  # Windows
+  set TEST_MODE=RECORD
+  # Powershell
+  $env:TEST_MODE=RECORD
+  # Linux
+  export TEST_MODE=RECORD
+  
+# run the bot
+npm start
+```
+Once the bot is started in record mode, execute the scenario(s) you wish to repeat later.  In this sample, typing ''`exit`" shuts the bot down gracefully.  All the traffic should be captured in the form of .json files in the `recordings` directory.
+
+### Playing recordings locally
+To play back the recordings locally, perform the following.
+```bash
+# Set record mode - true or false
+  # Windows
+  set TEST_MODE=PLAY
+  # Powershell
+  $env:TEST_MODE=PLAY
+  # Linux
+  export TEST_MODE=PLAY
+
+# run the bot
+npm start
+```
+The bot should run through the recording and validate the data is correct.
+
+### Proxy host the recordings 
+
+For other languages such as C#, it's convenient to host the recordings as a pseudo Teams server, and run through the scenarios that were recorded.
+
+To create the proxy host (which acts as the Teams proxy) perform the following:
+
+  > NOTE: The recordings exercise any AuthN paths.
+  >
+  > NOTE: The proxy by default listens on port 3979/
+```
+  # Windows
+  set TEST_MODE=PROXY_HOST
+  set PROXY_HOST=http://localhost:3979 # Or wherever the proxy is running
+  # Powershell
+  $env:TEST_MODE=PROXY_HOST
+  $env:PROXY_HOST=http://localhost:3979 # Or wherever the proxy is running
+  # Linux
+  export TEST_MODE=PROXY_HOST
+  export PROXY_HOST=http://localhost:3979 # Or wherever the proxy is running
+
+# run the bot
+npm start
+```
+
+
+In order to trigger the test, the client first must begin recording (`GET /api/runtests`) to start the tests. 
+
+
+
+![Proxy Recordingsl](./_images/proxy_recordings.jpg)
+
+### Play recordings against proxy
+
+To use the proxy host, the client must trigger the proxy to begin the calls (see drawing above).
+
+To create the use the proxy host, perform the following:
+  > NOTE: The recordings exercise any AuthN paths.
+```
+  # Windows
+  set TEST_MODE=PROXY_PLAY
+  # Powershell
+  $env:TEST_MODE=PROXY_PLAY
+  # Linux
+  export TEST_MODE=PROXY_PLAY
+
+# run the bot
+npm start
+```
+
+
 ## Prerequisites
 
 This sample **requires** prerequisites in order to run.
@@ -11,6 +103,10 @@ This sample **requires** prerequisites in order to run.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+
+
+
+
 
 ### Ngrok setup
 
@@ -114,3 +210,50 @@ npm start
 2. If you install multiple bots which handle link unfurling, the first bot that responds will be displayed.
 3. If the bot returns multiple results, the first result will be displayed.
 4. Link unfurling action is handled by `onAppBasedLinkQuery` method in the bot code
+
+# Appendix A 
+
+To edit drawing, go to [Web Sequence Diagrams](https://www.websequencediagrams.com/) and copy and paste the following:
+```
+title Proxy Recordings Scenario
+
+note left of Bot\n(TEST_MODE=PROXY_PLAY) : **Start the tests**\nAll the tests run\nin context of this call.
+Bot\n(TEST_MODE=PROXY_PLAY) ->Proxy Service\n(TEST_MODE=PROXY_HOST): GET /api/runtests
+note right of Proxy Service\n(TEST_MODE=PROXY_HOST): Load recordings and\ninvoke bot simulating user.
+Proxy Service\n(TEST_MODE=PROXY_HOST)->Bot\n(TEST_MODE=PROXY_PLAY): Activity Request
+Bot\n(TEST_MODE=PROXY_PLAY)->Proxy Service\n(TEST_MODE=PROXY_HOST): Activity Response
+note left of Bot\n(TEST_MODE=PROXY_PLAY): Bot processes Activity
+Bot\n(TEST_MODE=PROXY_PLAY)->Proxy Service\n(TEST_MODE=PROXY_HOST): Activity Reply
+note right of Proxy Service\n(TEST_MODE=PROXY_HOST): Validate reply\nmatches recordings.
+Proxy Service\n(TEST_MODE=PROXY_HOST)->Bot\n(TEST_MODE=PROXY_PLAY): Activity Reply Response
+Proxy Service\n(TEST_MODE=PROXY_HOST)->Bot\n(TEST_MODE=PROXY_PLAY): Response /api/runtests
+note left of Bot\n(TEST_MODE=PROXY_PLAY): **End the tests**\nAll tests are complete.
+```
+
+# Appendix B
+
+Here's an example `.vscode/launch.json` to debug this sample.
+It's assumed the `workspaceFolder` is set to `Botbuilder-Samples` directory.
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}\\experimental\\teams\\javascript_nodejs\\scenarios\\link-unfurling\\lib\\index.js",
+            "sourceMaps": false,
+            "env": {"TEST_MODE":"PROXY_PLAY", "PROXY_HOST":"http://localhost:3979"},
+            "cwd": "${workspaceFolder}\\experimental\\teams\\javascript_nodejs\\scenarios\\link-unfurling",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        }
+    ]
+}
+```
