@@ -42,7 +42,8 @@ exports.proxyRecordings = function() {
         const session = new ProxySession(testName, remoteAddress);
         clientSessions[req.connection.remoteAddress] = session;
         await processHostRecordings(session);
-        res.send('DONE!')
+        const response = { id: "1"};
+        res.send(response);
         delete clientSessions[req.connection.remoteAddress];
         return next(false);
     });
@@ -52,7 +53,8 @@ exports.proxyRecordings = function() {
     },
     (req, res, next) => {
         processHostReply(req, res, clientSessions[req.connection.remoteAddress]);
-        res.send('SUCCESS!')
+        const response = { id: "1"};
+        res.send(response);
         return next(false);
     });
 }
