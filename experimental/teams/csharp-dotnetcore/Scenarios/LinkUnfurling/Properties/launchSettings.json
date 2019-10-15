@@ -1,5 +1,4 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,11 +7,14 @@
       "sslPort": 0
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "PROXY_HOST": "http://localhost:3979",
+        "TEST_MODE": "PROXY_PLAY",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
