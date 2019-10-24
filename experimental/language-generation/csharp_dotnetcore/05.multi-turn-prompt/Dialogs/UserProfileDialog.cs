@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples
             return await stepContext.PromptAsync(nameof(ChoicePrompt),
                 new PromptOptions
                 {
-                    Prompt = _lgGenerator.GenerateActivityForLocale("ModeOfTransportPrompt", stepContext),
+                    Prompt = _lgGenerator.GenerateActivityForLocale("ModeOfTransportPrompt43", stepContext),
                     Choices = ChoiceFactory.ToChoices(new List<string> { "Car", "Bus", "Bicycle" }),
                 }, cancellationToken) ;
         }

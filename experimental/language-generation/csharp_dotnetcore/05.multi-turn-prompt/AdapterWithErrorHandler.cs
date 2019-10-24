@@ -9,27 +9,33 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+using System.Collections.Generic;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private TemplateEngine _lgEngine;
-
+        private MultiLingualTemplateEngineManager _lgManager;
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            // combine path for cross platform support
-            string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };
-            string fullPath = Path.Combine(paths);
-            _lgEngine = new TemplateEngine().AddFile(fullPath);
+            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>();
+            lgFilesPerLocale[""] = new List<string>()
+            {
+                Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")
+            };
+            lgFilesPerLocale["fr"] = new List<string>()
+            {
+                Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")
+            };
+            _lgManager = new MultiLingualTemplateEngineManager(lgFilesPerLocale);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception)));
+                await turnContext.SendActivityAsync(_lgManager.GenerateActivityForLocale("SomethingWentWrong", exception, turnContext));
 
                 if (conversationState != null)
                 {

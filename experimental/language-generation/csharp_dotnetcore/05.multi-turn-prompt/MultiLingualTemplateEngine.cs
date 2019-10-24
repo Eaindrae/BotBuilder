@@ -46,7 +46,7 @@ namespace Microsoft.BotBuilderSamples
 
         }
 
-        public Activity GenerateActivityForLocale(string templateName, object data, TurnContext turnContext)
+        public Activity GenerateActivityForLocale(string templateName, object data, ITurnContext turnContext)
         {
             if (templateName == null)
             {
