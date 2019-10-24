@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.LanguageGeneration.Generators;
 using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples
@@ -17,6 +18,7 @@ namespace Microsoft.BotBuilderSamples
     {
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
         private static TemplateEngine _lgEngine;
+        private static MultiLanguageGenerator _lgMultiLingualGenerator;
         public UserProfileDialog(UserState userState)
             : base(nameof(UserProfileDialog))
         {
@@ -25,6 +27,7 @@ namespace Microsoft.BotBuilderSamples
             string[] paths = { ".", "Resources", "UserProfileDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
+
             // This array defines how the Waterfall will execute.
             var waterfallSteps = new WaterfallStep[]
             {
