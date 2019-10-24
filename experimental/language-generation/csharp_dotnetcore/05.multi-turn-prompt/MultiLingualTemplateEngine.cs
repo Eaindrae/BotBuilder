@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples
     public class MultiLingualTemplateEngineManager
     {
         public Dictionary<string, TemplateEngine> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, TemplateEngine>();
-        public Dictionary<string, string> FallBackPolicy { get; set; } = new Dictionary<string, string>();
+        private LanguagePolicy LangFallBackPolicy;
 
         public MultiLingualTemplateEngineManager(Dictionary<string, List<string>> lgFilesPerLocale)
         {
@@ -24,21 +24,6 @@ namespace Microsoft.BotBuilderSamples
             }
 
             InternalConstructor(lgFilesPerLocale);
-        }
-
-        public MultiLingualTemplateEngineManager(Dictionary<string, List<string>> lgFilesPerLocale, Dictionary<string, string> fallBackPolicy)
-        {
-            if (lgFilesPerLocale == null)
-            {
-                throw new ArgumentNullException(nameof(lgFilesPerLocale));
-            }
-
-            if (fallBackPolicy == null)
-            {
-                throw new ArgumentNullException(nameof(fallBackPolicy));
-            }
-
-            InternalConstructor(lgFilesPerLocale, fallBackPolicy);
         }
 
         public Activity GenerateActivityForLocale(string templateName, object data, WaterfallStepContext stepContext)
@@ -110,11 +95,29 @@ namespace Microsoft.BotBuilderSamples
 
         private Activity InternalGenerateActivityForLocale(string templateName, object data, string locale)
         {
-            if (locale == null || locale == "")
+            var iLocale = locale == null ? "" : locale;
+
+            if (TemplateEnginesPerLocale.ContainsKey(iLocale))
             {
-                // TODO: get fall back locale.
+                return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data));
             }
-            return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data));
+            var locales = new string[] { string.Empty };
+            if (!LangFallBackPolicy.TryGetValue(iLocale, out locales))
+            {
+                if (!LangFallBackPolicy.TryGetValue(string.Empty, out locales))
+                {
+                    throw new Exception($"No supported language found for {locale}");
+                }
+            }
+
+            foreach (var fallBackLocale in locales)
+            {
+                if (TemplateEnginesPerLocale.ContainsKey(fallBackLocale))
+                {
+                    return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data));
+                }
+            }
+            return new Activity();
         }
 
         private void InternalConstructor(Dictionary<string, List<string>> lgFilesPerLocale, Dictionary<string, string> fallBackPolicy = null)
@@ -124,16 +127,7 @@ namespace Microsoft.BotBuilderSamples
                 TemplateEnginesPerLocale[filesPerLocale.Key] = new TemplateEngine();
                 TemplateEnginesPerLocale[filesPerLocale.Key].AddFiles(filesPerLocale.Value);
             }
-            FallBackPolicy = fallBackPolicy;
-        }
-
-        private string GetLocaleWithFallBackLogic(string activityLocale)
-        {
-            foreach(KeyValuePair<string, string> localeMap in FallBackPolicy)
-            {
-                if (activityLocale == localeMap.Key) return activityLocale;
-                if ()
-            }
+            LangFallBackPolicy = new LanguagePolicy();
         }
 
     }
