@@ -1,48 +1,49 @@
-# echo-bot
+﻿# EchoBot
 
-Bot Framework v4 echo bot sample
+Bot Framework v4 echo bot sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
+To allow this bot to use Direct Line Speech, these changes were made to the original EchoBot sample:
+1. Use the WebSocketEnabledHttpAdapter in the startup.cs file.
+2. Enabled WebSockets in your application by calling app.UseWebSockets() in the startup.cs file. Note this call must be made BEFORE calling app.UseMVC().
+3. Adding HttpGet (in addition to HttpPost for other channels) to the Controller method in BotController.cs.
+4. Use the "Speak" helper method to send an Activity with the correct Speak field set to have Direct Line Speech turn the message into speech.
+
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-    ```bash
-    # determine node version
-    node --version
-    ```
-
-- In order to use the preview version of the [botbuilder-streaming-extensions](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-streaming-extensions) library required to use Direct Line Speech, run the following terminal commands from the root dir of the bot:
-1. npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-2. npm install
-3. npm config set registry https://registry.npmjs.org/
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
 
 ## To try this sample
 
 - Clone the repository
 
     ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/02.echo-bot`
+- In a terminal, navigate to `samples/csharp_dotnetcore/02.echo-bot`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-    ```bash
-    cd samples/javascript_nodejs/02.echo-bot
-    ```
+  A) From a terminal
 
-- Install modules
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-    ```bash
-    npm install
-    ```
+  B) Or from Visual Studio
 
-- Start the bot
-
-    ```bash
-    npm start
-    ```
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/02.echo-bot` folder
+  - Select `EchoBot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -67,6 +68,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
