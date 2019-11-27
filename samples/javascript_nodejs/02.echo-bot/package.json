@@ -16,7 +16,8 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.6.0",
+        "botbuilder": "file:../../../../stgum/skills/libraries/botbuilder",
+        "botframework-connector": "file:../../../../stgum/skills/libraries/botframework-connector",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
     },
