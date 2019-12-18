@@ -43,8 +43,27 @@ class QnABot extends ActivityHandler {
             else {
                 console.log('Calling QnA Maker');
     
-                const qnaResults = await this.qnaMaker.getAnswers(context);
-    
+                const qnamakerOptions = {
+                    strictFilters: [
+                        {
+                            name:"dialogname",
+                            value:"y1"
+                        }
+                    ],
+                    metadataBoost: [
+                        {
+                            name:"x",
+                            value:"y"
+                        }
+                    ]
+                }
+                var qnaResults = await this.qnaMaker.getAnswers(context, qnamakerOptions);
+                
+                console.log(JSON.stringify(qnaResults, null, 2));
+
+                 qnaResults = await this.qnaMaker.getAnswers(context);
+                console.log('Without filter');
+                console.log(JSON.stringify(qnaResults, null, 2));
                 // If an answer was received from QnA Maker, send the answer back to the user.
                 if (qnaResults[0]) {
                     await context.sendActivity(qnaResults[0].answer);
