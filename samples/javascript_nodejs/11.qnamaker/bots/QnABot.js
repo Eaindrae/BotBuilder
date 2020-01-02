@@ -44,18 +44,8 @@ class QnABot extends ActivityHandler {
                 console.log('Calling QnA Maker');
     
                 const qnamakerOptions = {
-                    strictFilters: [
-                        {
-                            name:"dialogname",
-                            value:"y1"
-                        }
-                    ],
-                    metadataBoost: [
-                        {
-                            name:"x",
-                            value:"y"
-                        }
-                    ]
+                    top : 2,
+                    //qnaId : "164"
                 }
                 var qnaResults = await this.qnaMaker.getAnswers(context, qnamakerOptions);
                 
