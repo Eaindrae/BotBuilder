@@ -80,197 +80,103 @@
 # AdaptiveCard.Definition
 - ```
 {
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0",
-  "type": "AdaptiveCard",
-  "speak": "Your flight is confirmed for you and 3 other passengers from San Francisco to Amsterdam on Friday, October 10 8:30 AM",
-  "body": [
-    {
-      "type": "TextBlock",
-      "text": "Passengers",
-      "weight": "bolder",
-      "isSubtle": false
-    },
-    {
-      "type": "TextBlock",
-      "text": "@{PassengerName()}",
-      "separator": true
-    },
-    {
-      "type": "TextBlock",
-      "text": "2 Stops",
-      "weight": "bolder",
-      "spacing": "medium"
-    },
-    {
-      "type": "TextBlock",
-      "text": "Fri, October 10 8:30 AM",
-      "weight": "bolder",
-      "spacing": "none"
-    },
-    {
-      "type": "ColumnSet",
-      "separator": true,
-      "columns": [
+    "type": "AdaptiveCard",
+    "body": [
         {
-          "type": "Column",
-          "width": 1,
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": "San Francisco",
-              "isSubtle": true
-            },
-            {
-              "type": "TextBlock",
-              "size": "extraLarge",
-              "color": "accent",
-              "text": "SFO",
-              "spacing": "none"
-            }
-          ]
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "text": "Test"
         },
         {
-          "type": "Column",
-          "width": "auto",
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": " "
-            },
-            {
-              "type": "Image",
-              "url": "http://adaptivecards.io/content/airplane.png",
-              "size": "small",
-              "spacing": "none"
-            }
-          ]
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "style": "Person",
+                            "url": "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+                            "size": "Small"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "Bolder",
+                            "text": "Test",
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "Created 01/02/2020",
+                            "isSubtle": true,
+                            "wrap": true
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
         },
         {
-          "type": "Column",
-          "width": 1,
-          "items": [
-            {
-              "type": "TextBlock",
-              "horizontalAlignment": "right",
-              "text": "Amsterdam",
-              "isSubtle": true
-            },
-            {
-              "type": "TextBlock",
-              "horizontalAlignment": "right",
-              "size": "extraLarge",
-              "color": "accent",
-              "text": "AMS",
-              "spacing": "none"
-            }
-          ]
+            "type": "TextBlock",
+            "text": "Test",
+            "wrap": true
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+                    "$data": "{properties}",
+                    "title": "{key}:",
+                    "value": "{value}"
+                }
+            ]
         }
-      ]
-    },
-    {
-      "type": "TextBlock",
-      "text": "Non-Stop",
-      "weight": "bolder",
-      "spacing": "medium"
-    },
-    {
-      "type": "TextBlock",
-      "text": "Fri, October 18 9:50 PM",
-      "weight": "bolder",
-      "spacing": "none"
-    },
-    {
-      "type": "ColumnSet",
-      "separator": true,
-      "columns": [
+    ],
+    "actions": [
         {
-          "type": "Column",
-          "width": 1,
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": "Amsterdam",
-              "isSubtle": true
-            },
-            {
-              "type": "TextBlock",
-              "size": "extraLarge",
-              "color": "accent",
-              "text": "AMS",
-              "spacing": "none"
+            "type": "Action.ShowCard",
+            "title": "Set due date",
+            "card": {
+                "type": "AdaptiveCard",
+                "body": [
+                    {
+                        "type": "Input.Date",
+                        "id": "dueDate"
+                    },
+                    {
+                        "type": "Input.Text",
+                        "id": "comment",
+                        "placeholder": "Add a comment",
+                        "isMultiline": true
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "Action.Submit",
+                        "title": "OK", 
+                        "data": {
+                            "intent": "card-0234"
+                        }
+                    }
+                ],
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
             }
-          ]
         },
         {
-          "type": "Column",
-          "width": "auto",
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": " "
-            },
-            {
-              "type": "Image",
-              "url": "http://adaptivecards.io/content/airplane.png",
-              "size": "small",
-              "spacing": "none"
-            }
-          ]
-        },
-        {
-          "type": "Column",
-          "width": 1,
-          "items": [
-            {
-              "type": "TextBlock",
-              "horizontalAlignment": "right",
-              "text": "San Francisco",
-              "isSubtle": true
-            },
-            {
-              "type": "TextBlock",
-              "horizontalAlignment": "right",
-              "size": "extraLarge",
-              "color": "accent",
-              "text": "SFO",
-              "spacing": "none"
-            }
-          ]
+            "type": "Action.OpenUrl",
+            "title": "View",
+            "url": "{viewUrl}"
         }
-      ]
-    },
-    {
-      "type": "ColumnSet",
-      "spacing": "medium",
-      "columns": [
-        {
-          "type": "Column",
-          "width": "1",
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": "Total",
-              "size": "medium",
-              "isSubtle": true
-            }
-          ]
-        },
-        {
-          "type": "Column",
-          "width": 1,
-          "items": [
-            {
-              "type": "TextBlock",
-              "horizontalAlignment": "right",
-              "text": "$4,032.54",
-              "size": "medium",
-              "weight": "bolder"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
 }
 ```

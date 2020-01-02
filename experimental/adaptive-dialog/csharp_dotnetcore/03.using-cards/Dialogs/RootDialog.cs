@@ -38,6 +38,17 @@ namespace Microsoft.BotBuilderSamples
                     new OnUnknownIntent()
                     {
                         Actions = OnBeginDialogSteps()
+                    },
+
+                    // Respond to adaptive card input
+                    new OnIntent()
+                    {
+                        // This is the named intent returned by the card
+                        Intent = "card-0234",
+                        Actions = new List<Dialog>()
+                        {
+                            new SendActivity("Sure, happy to help with that. Here is what I have .. @{turn.recognized.entities}")
+                        }
                     }
                 },
                 Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath))
