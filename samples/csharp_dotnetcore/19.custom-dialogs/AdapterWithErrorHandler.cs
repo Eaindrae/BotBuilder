@@ -7,14 +7,21 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ResourceExplorer resourceExplorer, ConversationState conversationState = null)
             : base(configuration, logger)
         {
+            this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
+            this.UseResourceExplorer(resourceExplorer);
+            this.UseAdaptiveDialogs();
+
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.

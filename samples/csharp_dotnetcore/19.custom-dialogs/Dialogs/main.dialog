@@ -3,11 +3,11 @@
   "$kind": "Microsoft.AdaptiveDialog",
   "triggers": [
     {
-      "$kind": "Microsoft.OnUnknownIntent",
+      "$kind": "Microsoft.OnBeginDialog",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
-          "activity":  "You said '@{turn.activity.text}'"
+          "activity":  "Test integration!"
         }
       ]
     }

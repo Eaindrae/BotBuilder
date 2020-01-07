@@ -9,6 +9,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Debugging;
+
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -59,8 +64,15 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new SlotFillingDialog("slot-dialog", slots));
 
             // Defines a simple two step Waterfall to test the slot dialog.
-            AddDialog(new WaterfallDialog("waterfall", new WaterfallStep[] { StartDialogAsync, ProcessResultsAsync }));
+            AddDialog(new WaterfallDialog("waterfall", new WaterfallStep[] { IntroAdaptiveDialog, StartDialogAsync, ProcessResultsAsync }));
 
+            // Get Folder of dialogs.
+			var resourceExplorer = new ResourceExplorer().AddFolder("Dialogs");
+			// Get Main Dialog file.
+			var rootFile = resourceExplorer.GetResource("main.dialog");
+			AdaptiveDialog myNewDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(rootFile, resourceExplorer, DebugSupport.SourceMap);
+            myNewDialog.Id = "main.dialog";
+            AddDialog(myNewDialog);
             // The initial child Dialog to run.
             InitialDialogId = "waterfall";
         }
@@ -83,6 +95,10 @@ namespace Microsoft.BotBuilderSamples
             return Task.FromResult(false);
         }
 
+        private async Task<DialogTurnResult> IntroAdaptiveDialog(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            return await stepContext.BeginDialogAsync("main.dialog", null, cancellationToken);
+        }
         private async Task<DialogTurnResult> StartDialogAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Start the child dialog. This will run the top slot dialog than will complete when all the properties are gathered.
