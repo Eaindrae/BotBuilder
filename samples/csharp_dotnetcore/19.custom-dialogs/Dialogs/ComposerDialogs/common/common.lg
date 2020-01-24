@@ -1,0 +1,15 @@
+
+
+# bfdactivity-234787()
+- hi
+- hello
+- how are you doing today?
+
+# bfdactivity-843726()
+- Sure, no worries. Happy to do that!
+
+# bfdactivity-827174()
+[Activity
+    Text = I'm just a demo bot that shows composer integration.
+    SuggestedActions = hi | stop
+]

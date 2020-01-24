@@ -1,0 +1,85 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "demoBot",
+      "id": "539595"
+    }
+  },
+  "autoEndDialog": "false",
+  "defaultResultProperty": "dialog.result",
+  "recognizer": {
+    "$type": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "greeting",
+        "pattern": "hi"
+      },
+      {
+        "intent": "end",
+        "pattern": "stop"
+      }
+    ]
+  },
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "common.lg",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "986492"
+      },
+      "intent": "greeting",
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "234787",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-234787()}"
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "922224"
+      },
+      "intent": "end",
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "843726",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-843726()}"
+        },
+        {
+          "$type": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "131959",
+            "name": "End this dialog"
+          }
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "727542"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "827174",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-827174()}"
+        }
+      ]
+    }
+  ]
+}

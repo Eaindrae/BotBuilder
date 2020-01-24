@@ -21,6 +21,8 @@ namespace Microsoft.BotBuilderSamples
             this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseResourceExplorer(resourceExplorer);
             this.UseAdaptiveDialogs();
+            this.UseLanguageGeneration(resourceExplorer);
+
 
             OnTurnError = async (turnContext, exception) =>
             {

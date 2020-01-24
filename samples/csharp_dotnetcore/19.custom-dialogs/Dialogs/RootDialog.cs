@@ -64,15 +64,21 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new SlotFillingDialog("slot-dialog", slots));
 
             // Defines a simple two step Waterfall to test the slot dialog.
-            AddDialog(new WaterfallDialog("waterfall", new WaterfallStep[] { IntroAdaptiveDialog, StartDialogAsync, ProcessResultsAsync }));
+            AddDialog(new WaterfallDialog("waterfall", new WaterfallStep[] { IntroAdaptiveDialog, ComposerAdaptiveDialog, StartDialogAsync, ProcessResultsAsync }));
 
             // Get Folder of dialogs.
 			var resourceExplorer = new ResourceExplorer().AddFolder("Dialogs");
 			// Get Main Dialog file.
-			var rootFile = resourceExplorer.GetResource("main.dialog");
-			AdaptiveDialog myNewDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(rootFile, resourceExplorer, DebugSupport.SourceMap);
-            myNewDialog.Id = "main.dialog";
-            AddDialog(myNewDialog);
+			var introDialog = resourceExplorer.GetResource("test.dialog");
+			AdaptiveDialog myIntroDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(introDialog, resourceExplorer, DebugSupport.SourceMap);
+            myIntroDialog.Id = "test.dialog";
+            AddDialog(myIntroDialog);
+
+            var composerDialog = resourceExplorer.GetResource("Main.dialog");
+            AdaptiveDialog myComposerDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(composerDialog, resourceExplorer, DebugSupport.SourceMap);
+            myComposerDialog.Id = "Main.dialog";
+            AddDialog(myComposerDialog);
+
             // The initial child Dialog to run.
             InitialDialogId = "waterfall";
         }
@@ -97,7 +103,12 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> IntroAdaptiveDialog(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            return await stepContext.BeginDialogAsync("main.dialog", null, cancellationToken);
+            return await stepContext.BeginDialogAsync("test.dialog", null, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> ComposerAdaptiveDialog(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            return await stepContext.BeginDialogAsync("Main.dialog", null, cancellationToken);
         }
         private async Task<DialogTurnResult> StartDialogAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
