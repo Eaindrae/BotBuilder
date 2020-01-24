@@ -20,9 +20,9 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |[View][py#1]
 |1.browser-echo         | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.   |  |  |    |[View][es#1]|             |
 |2.echo-bot             | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |[View][py#2]
-|3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |[View][py#3]
-|5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             | |[View][py#5]
-|6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             | |[View][py#6]
+|3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | |[View][ts#3] |[View][py#3]
+|5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             |[View][ts#5] |[View][py#5]
+|6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             |[View][ts#6] |[View][py#6]
 |7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |[View][py#7]
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |[View][py#8]
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
@@ -34,6 +34,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |[View][py#17]
 |18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |[View][py#18]
 |19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |[View][py#19]
+|21.corebot-app-insights     | Demonstrates how to add telemetry logging to your bot, storing telemetry within Application Insights.|[View][cs#21] |[View][js#21] |              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |[View][py#23]
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |[View][py#24]
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |[View][py#40]
@@ -101,6 +102,9 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [ts#0]:samples/typescript_nodejs/00.empty-bot
 [ts#1]:samples/typescript_nodejs/01.console-echo
 [ts#2]:samples/typescript_nodejs/02.echo-bot
+[ts#3]:samples/typescript_nodejs/03.welcome-users
+[ts#5]:samples/typescript_nodejs/05.multi-turn-prompt
+[ts#6]:samples/typescript_nodejs/06.using-cards
 [ts#13]:samples/typescript_nodejs/13.core-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
@@ -121,7 +125,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#17]:samples/javascript_nodejs/17.multilingual-bot
 [js#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
-[js#21]:samples/javascript_nodejs/21.luis-with-appinsights
+[js#21]:samples/javascript_nodejs/21.corebot-app-insights
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
 [js#40]:samples/javascript_nodejs/40.timex-resolution
