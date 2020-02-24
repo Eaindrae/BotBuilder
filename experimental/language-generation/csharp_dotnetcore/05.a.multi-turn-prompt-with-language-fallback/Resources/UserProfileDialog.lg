@@ -2,43 +2,25 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 # ModeOfTransportPrompt
-[Activity
-    text=Please enter your mode of transport.
-    inputHint=expectingInput
-]
+- Please enter your mode of transport.
 
 # AskForName
-[Activity
-    text=Please enter your name.
-    inputHint=expectingInput
-]
+- Please enter your name.
 
 # AckName
-[Activity
-    text=Thanks, ${CapitalizeFirstLetter(Result)}.
-    inputHint=expectingInput
-]
+- Thanks, ${CapitalizeFirstLetter(Result)}.
 
 # CapitalizeFirstLetter (arg) 
 - ${concat(toUpper(substring(arg, 0, 1)), substring(arg, 1))}
 
 # AgeConfirmPrompt
-[Activity
-    text=Would you like to give your age?
-    inputHint=expectingInput
-]
+- Would you like to give your age?
 
 # AskForAge
-[Activity
-    text=Please enter your age.
-    inputHint=expectingInput
-]
+- Please enter your age.
 
 # AskForAge.reprompt
-[Activity
-    text=The value entered must be greater than 0 and less than 150.
-    inputHint=expectingInput
-]
+- The value entered must be greater than 0 and less than 150.
 
 > This template uses inline expressions. Expressions are defined using the common expression language. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
@@ -50,10 +32,7 @@
    - And, I have your age as ${userAge}.
 
 # ConfirmPrompt
-[Activity
-    text=Is this ok?
-    inputHint=expectingInput
-]
+- Is this ok?
 
 # SummaryReadout
 - I have your mode of transport as ${Transport} and your name as ${Name}. ${AgeReadBack(Age)}

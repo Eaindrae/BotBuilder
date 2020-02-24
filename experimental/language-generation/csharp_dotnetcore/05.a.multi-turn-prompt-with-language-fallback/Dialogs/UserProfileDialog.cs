@@ -55,10 +55,11 @@ namespace Microsoft.BotBuilderSamples
         {
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
             // Running a prompt here means the next WaterfallStep will be run when the users response is received.
+            var prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ModeOfTransportPrompt()}", null));
             return await stepContext.PromptAsync(nameof(ChoicePrompt),
                 new PromptOptions
                 {
-                    Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ModeOfTransportPrompt()}", null)),
+                    Prompt = prompt,
                     Choices = ChoiceFactory.ToChoices(new List<string> { "Car", "Bus", "Bicycle" }),
                 }, cancellationToken);
         }
@@ -66,9 +67,9 @@ namespace Microsoft.BotBuilderSamples
         private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             stepContext.Values["transport"] = ((FoundChoice)stepContext.Result).Value;
-
+            var prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForName()}", null));
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {
-                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForName()}", null)),
+                Prompt = prompt
             }, cancellationToken);
         }
 
@@ -83,23 +84,26 @@ namespace Microsoft.BotBuilderSamples
             });
 
             await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(prompt), cancellationToken);
-
+            var namePrompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AgeConfirmPrompt()}", null));
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
-                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AgeConfirmPrompt()}", null)),
-            }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions
+            {
+                Prompt = namePrompt
+            }, cancellationToken) ;
         }
 
         private async Task<DialogTurnResult> AgeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if ((bool)stepContext.Result)
             {
+                var prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge()}", null));
+                var rePrompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge.reprompt()}", null));
                 // User said "yes" so we will be prompting for the age.
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge()}", null)),
-                    RetryPrompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge.reprompt()}", null)),
+                    Prompt = prompt,
+                    RetryPrompt = rePrompt
                 };
 
                 return await stepContext.PromptAsync(nameof(NumberPrompt<int>), promptOptions, cancellationToken);
@@ -123,9 +127,10 @@ namespace Microsoft.BotBuilderSamples
             // We can send messages to the user at any point in the WaterfallStep.
             await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
 
+            var prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ConfirmPrompt()}", null));
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
-                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ConfirmPrompt()}", null)),
+                Prompt = prompt
             }, cancellationToken);
         }
 
