@@ -8,28 +8,31 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private MultiLingualTemplateEngine _lgManager;
+        private ILanguageGenerator _lgGenerator;
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>() 
+            var lgFilesPerLocale = new Dictionary<string, string>() 
             {
-                {"", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")}},
-                {"fr", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}}
+                {"", Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")},
+                {"fr", Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}
             };
-            _lgManager = new MultiLingualTemplateEngine(lgFilesPerLocale);
+            _lgGenerator = new SimpleMultiLangGenerator(lgFilesPerLocale);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgManager.GenerateActivity("SomethingWentWrong", exception, turnContext));
+                var exceeptionActivity = await _lgGenerator.Generate(turnContext, "${SomethingWentWrong()}", exception);
+                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(exceeptionActivity));
 
                 if (conversationState != null)
                 {

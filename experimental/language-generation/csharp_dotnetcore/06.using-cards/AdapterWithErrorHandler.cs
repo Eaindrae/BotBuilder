@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private TemplateEngine _lgEngine;
+        private LGFile _lgFile;
 
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
@@ -21,14 +21,14 @@ namespace Microsoft.BotBuilderSamples
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = new TemplateEngine().AddFile(fullPath);
+            _lgFile = LGParser.ParseFile(fullPath);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception).ToString()));
+                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("SomethingWentWrong", exception).ToString()));
 
                 if (conversationState != null)
                 {

@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples
     public class UserProfileDialog : ComponentDialog
     {
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
-        private static TemplateEngine _lgEngine;
+        private static LGFile _lgFile;
         public UserProfileDialog(UserState userState)
             : base(nameof(UserProfileDialog))
         {
@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "UserProfileDialog.lg" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = new TemplateEngine().AddFile(fullPath);
+            _lgFile = LGParser.ParseFile(fullPath);
             // This array defines how the Waterfall will execute.
             var waterfallSteps = new WaterfallStep[]
             {
@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
                 new PromptOptions
                 {
                     
-                    Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ModeOfTransportPrompt").ToString()),
+                    Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("ModeOfTransportPrompt").ToString()),
                     Choices = ChoiceFactory.ToChoices(new List<string> { "Car", "Bus", "Bicycle" }),
                 }, cancellationToken);
         }
@@ -64,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
         {
             stepContext.Values["transport"] = ((FoundChoice)stepContext.Result).Value;
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AskForName").ToString()) }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("AskForName").ToString()) }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> NameConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -72,12 +72,12 @@ namespace Microsoft.BotBuilderSamples
             stepContext.Values["name"] = (string)stepContext.Result;
 
             // We can send messages to the user at any point in the WaterfallStep.
-            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AckName", new {
+            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("AckName", new {
                 Result = stepContext.Result
             }).ToString()), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AgeConfirmPrompt").ToString()) }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("AgeConfirmPrompt").ToString()) }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> AgeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -88,8 +88,8 @@ namespace Microsoft.BotBuilderSamples
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AskForAge").ToString()),
-                    RetryPrompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AskForAge.reprompt").ToString()),
+                    Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("AskForAge").ToString()),
+                    RetryPrompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("AskForAge.reprompt").ToString()),
                 };
 
                 return await stepContext.PromptAsync(nameof(NumberPrompt<int>), promptOptions, cancellationToken);
@@ -105,7 +105,7 @@ namespace Microsoft.BotBuilderSamples
         {
             stepContext.Values["age"] = (int)stepContext.Result;
 
-            var msg = _lgEngine.EvaluateTemplate("AgeReadBack", new
+            var msg = _lgFile.EvaluateTemplate("AgeReadBack", new
             {
                 userAge = stepContext.Values["age"]
             });
@@ -114,7 +114,7 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ConfirmPrompt").ToString()) }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("ConfirmPrompt").ToString()) }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -128,13 +128,13 @@ namespace Microsoft.BotBuilderSamples
                 userProfile.Name = (string)stepContext.Values["name"];
                 userProfile.Age = (int)stepContext.Values["age"];
 
-                var msg = _lgEngine.EvaluateTemplate("SummaryReadout", userProfile);
+                var msg = _lgFile.EvaluateTemplate("SummaryReadout", userProfile);
 
                 await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
             }
             else
             {
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("NoProfileReadBack").ToString()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("NoProfileReadBack").ToString()), cancellationToken);
             }
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.

@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     {
         protected readonly IConfiguration Configuration;
         protected readonly ILogger Logger;
-        protected TemplateEngine _lgEngine;
+        protected LGFile _lgFile;
 
         public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "MainDialog.lg" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = new TemplateEngine().AddFile(fullPath);
+            _lgFile = LGParser.ParseFile(fullPath);
 
             Configuration = configuration;
             Logger = logger;
@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("IntroPrompt").ToString()) }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("IntroPrompt").ToString()) }, cancellationToken);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 var timeProperty = new TimexProperty(result.TravelDate);
                 result.travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("BookingConfirmation", result).ToString()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgFile.EvaluateTemplate("BookingConfirmation", result).ToString()), cancellationToken);
             }
             else
             {

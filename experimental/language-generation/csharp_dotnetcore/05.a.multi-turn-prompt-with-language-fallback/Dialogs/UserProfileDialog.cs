@@ -9,23 +9,25 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+
 namespace Microsoft.BotBuilderSamples
 {
     public class UserProfileDialog : ComponentDialog
     {
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
-        private static MultiLingualTemplateEngine _lgGenerator;
+        private static ILanguageGenerator _lgGenerator;
 
         public UserProfileDialog(UserState userState)
             : base(nameof(UserProfileDialog))
         {
             _userProfileAccessor = userState.CreateProperty<UserProfile>("UserProfile");
             // combine path for cross platform support
-            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>() {
-                {"", new List<string>() {Path.Combine(".", "Resources", "UserProfileDialog.lg")}},
-                {"fr", new List<string>() {Path.Combine(".", "Resources", "UserProfileDialog.fr-fr.lg")}}
+            var lgFilesPerLocale = new Dictionary<string, string>() {
+                {"", Path.Combine(".", "Resources", "UserProfileDialog.lg")},
+                {"fr", Path.Combine(".", "Resources", "UserProfileDialog.fr-fr.lg")}
             };
-            _lgGenerator = new MultiLingualTemplateEngine(lgFilesPerLocale);
+            _lgGenerator = new SimpleMultiLangGenerator(lgFilesPerLocale);
 
             // This array defines how the Waterfall will execute.
             var waterfallSteps = new WaterfallStep[]
@@ -56,9 +58,9 @@ namespace Microsoft.BotBuilderSamples
             return await stepContext.PromptAsync(nameof(ChoicePrompt),
                 new PromptOptions
                 {
-                    Prompt = _lgGenerator.GenerateActivity("ModeOfTransportPrompt", stepContext),
+                    Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ModeOfTransportPrompt()}", null)),
                     Choices = ChoiceFactory.ToChoices(new List<string> { "Car", "Bus", "Bicycle" }),
-                }, cancellationToken) ;
+                }, cancellationToken);
         }
 
         private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -66,7 +68,7 @@ namespace Microsoft.BotBuilderSamples
             stepContext.Values["transport"] = ((FoundChoice)stepContext.Result).Value;
 
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {
-                Prompt = _lgGenerator.GenerateActivity("AskForName", stepContext)
+                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForName()}", null)),
             }, cancellationToken);
         }
 
@@ -75,13 +77,16 @@ namespace Microsoft.BotBuilderSamples
             stepContext.Values["name"] = (string)stepContext.Result;
 
             // We can send messages to the user at any point in the WaterfallStep.
-            await stepContext.Context.SendActivityAsync(_lgGenerator.GenerateActivity("AckName", new {
+            var prompt = await _lgGenerator.Generate(stepContext.Context, "${AckName()}", new
+            {
                 Result = stepContext.Result
-            }, stepContext), cancellationToken);
+            });
+
+            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(prompt), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
-                Prompt = _lgGenerator.GenerateActivity("AgeConfirmPrompt", stepContext)
+                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AgeConfirmPrompt()}", null)),
             }, cancellationToken);
         }
 
@@ -93,8 +98,8 @@ namespace Microsoft.BotBuilderSamples
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = _lgGenerator.GenerateActivity("AskForAge", stepContext),
-                    RetryPrompt = _lgGenerator.GenerateActivity("AskForAge.reprompt", stepContext),
+                    Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge()}", null)),
+                    RetryPrompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${AskForAge.reprompt()}", null)),
                 };
 
                 return await stepContext.PromptAsync(nameof(NumberPrompt<int>), promptOptions, cancellationToken);
@@ -110,17 +115,17 @@ namespace Microsoft.BotBuilderSamples
         {
             stepContext.Values["age"] = (int)stepContext.Result;
 
-            var msg = _lgGenerator.GenerateActivity("AgeReadBack", new
+            var msg = await _lgGenerator.Generate(stepContext.Context, "${AgeReadBack()}", new
             {
                 userAge = stepContext.Values["age"]
-            }, stepContext);
+            });
 
             // We can send messages to the user at any point in the WaterfallStep.
             await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
-                Prompt = _lgGenerator.GenerateActivity("ConfirmPrompt", stepContext)
+                Prompt = ActivityFactory.CreateActivity(await _lgGenerator.Generate(stepContext.Context, "${ConfirmPrompt()}", null)),
             }, cancellationToken);
         }
 
@@ -135,13 +140,14 @@ namespace Microsoft.BotBuilderSamples
                 userProfile.Name = (string)stepContext.Values["name"];
                 userProfile.Age = (int)stepContext.Values["age"];
 
-                var msg = _lgGenerator.GenerateActivity("SummaryReadout", userProfile, stepContext);
+                var msg = await _lgGenerator.Generate(stepContext.Context, "${SummaryReadout()}", userProfile);
 
                 await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
             }
             else
             {
-                await stepContext.Context.SendActivityAsync(_lgGenerator.GenerateActivity("NoProfileReadBack", stepContext), cancellationToken);
+                var msg = await _lgGenerator.Generate(stepContext.Context, "${NoProfileReadBack()}", null);
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg), cancellationToken);
             }
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
