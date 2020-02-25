@@ -1,12 +1,12 @@
 
 
 # bfdactivity-234787()
-- hi
-- hello
-- how are you doing today?
+- hi @{user.name}
+- hello @{user.name}
+- how are you doing today? @{user.name}
 
 # bfdactivity-843726()
-- Sure, no worries. Happy to do that!
+- Sure, @{user.name} no worries. Happy to do that!
 
 # bfdactivity-827174()
 [Activity

@@ -32,6 +32,12 @@
       "intent": "greeting",
       "actions": [
         {
+          "$type": "Microsoft.TextInput",
+          "prompt": "Hi, what is your name?",
+          "property": "user.name",
+          "alwaysPrompt": true
+        },
+        {
           "$type": "Microsoft.SendActivity",
           "$designer": {
             "id": "234787",

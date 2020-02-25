@@ -15,14 +15,14 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ResourceExplorer resourceExplorer, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ResourceExplorer resourceExplorer, ConversationState conversationState = null, UserState userState = null)
             : base(configuration, logger)
         {
             this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseResourceExplorer(resourceExplorer);
             this.UseAdaptiveDialogs();
             this.UseLanguageGeneration(resourceExplorer);
-
+            this.UseState(userState, conversationState);
 
             OnTurnError = async (turnContext, exception) =>
             {
