@@ -1,121 +1,119 @@
-﻿# Handoff Library
+# Handoff Library
 
 Bot Framework v4 Handoff Library
 
-The library implements the additions to the Bot Framework SDK to support handoff to an agent (a.k.a. 'escalation').
+The library implements the additions to the Bot Framework SDK to support handoff to an agent (a.k.a. 'escalation'). The library contains definitons of three event types for signaling handoff operations. The events are exchanged between a bot and an _agent hub_ (sometimes also known as engagement hub), which is defined as an application or a system that allows agents (typically human) to receive and handle requests from users, as well as escalation requests from bots.
 
-The library is intended to be merged in a future release of the Bot Framework SDK.
+Integrations with specific agent hubs are not part of the library. 
 
-## Prerequisites
+The library is intto be merged in a future release of the Bot Framework SDK.
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+## Introduction
 
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+Many customer care systems combine conversational AI with live agents. Users want to talk to a live agent either because the bot does not understand the user (AI limitation), or the request cannot be automated and requires a human (application-specific limitation).
 
-## Handoff APIs
+The goal of this library is not to offer a universal solution for integration with any customer care system, but rather to provide a "common language" and best practices for bot developers and system integrators building conversational AI systems with human in the loop.
 
-The developer experience consists of two parts – the initiation of the handoff, which is an API call triggered by the bot, and the completion notification, which is an event received by the bot.
+## Protocol
 
-### Adapter Support
-
-A bot that supports handoff must use a bot adapter implementing the `IHandoffAdapter` interface, defined as follows:
-
-```
-public interface IHandoffAdapter
-{
-    Task<IHandoffRequest> InitiateHandoffAsync(Activity[] activities, 
-                                               object handoffContext, 
-                                               CancellationToken cancellationToken = default);
-}
-```
-
-The payload of the call contains the transcript of the activities and the channel specific context.
-
-The `BotFrameworkHttpAdapterWithHandoff` supports handoff by implementing the `IHandoffAdapter` interface. The payload is packaged into an HTTP POST request and is sent to the channel. Other implementations are possible.
+The protocol is centered around three distinct events for initiation, acknowledgement, and completion.
 
 ### Handoff Initiation
 
-The handoff is initiated by the bot. This can be triggered by NLP ("I need a human"), failure to handle user request, or sentiment analysis ("you are not understanding me").
+_Handoff Initiation_ event is created by the bot to initiate handoff. The event contains the payload as described below.
 
-The handoff is initiated via the `InitiateHandoffAsync` call on the `ITurnContext` interface:
+#### Name
 
+The `name` is a REQUIRED field that is set to `"handoff.initiate"`.
+
+#### Value
+
+The `value` field is an object containing agent hub-specific JSON content, such as required agent skill etc. Example: 
+```json
+{ "Skill" : "credit cards" }
+```
+`Value` field is OPTIONAL.
+
+#### Attachments
+
+The `attachments` is an OPTIONAL field containing the list of `Attachment` objects. Bot Framework defines the "Transcript" attachment type that is used to send conversation transcript to the agent hub if required. Attachments can be sent either inline (subject to a size limit) or offline by providing `ContentUrl`. Example:
 ```C#
-public class BotWithHandoff : ActivityHandler
-{
-    public override async Task OnTurnAsync(ITurnContext turnContext, 
-        CancellationToken cancellationToken = default)
-    {
-        ...
-        var request = await turnContext.InitiateHandoffAsync(/* omitted, see below */);
-    }
-}
+handoffEvent.Attachments = new List<Attachment> {
+    new Attachment {
+        Content = transcript,
+        ContentType = "application/json",
+        Name = "Trasnscript",
+    }};
 ```
 
-Because the operation can take a long time (several minutes), the returning task does not represent the completion of the handoff. Instead, the API returns the `HandoffRequest` class that can be used to track the completion of the request:
+Agent hubs SHOULD ignore attachment types they don't understand.
 
-```C#
-public class HandoffRequest
-{
-    public bool IsCompletedAsync();
-}
+#### Conversation
+
+The `conversation` is a REQUIRED field of type `ConversationAccount` describing the conversation being handed over. Critically, it MUST include the conversation `Id` that can be used for correlation with the other events.
+
+### Handoff Status
+
+_Handoff Status_ event is sent to the bot by the agent hub. The event informs the bot about the status of the initiated handoff operation.
+
+Bots are NOT REQUIRED to handle the event, however they MUST NOT reject it.
+
+#### Name
+
+The `name` is a REQUIRED field that is set to `"handoff.status"`. 
+
+#### Value
+
+The `value` is a REQUIRED field describing the current status of the handoff operation. 
+It is a JSON object containing the REQUIRED field `state` and an optional field `message`, as defined below.
+
+The `state` has one of the following values:
+
+- "accepted": An agent has accepted the request and taken control of the conversation.
+- "failed": Handoff request has failed. The `message` might contain additional information relevant to the failure.
+- "completed": Handoff request has completed.
+
+The format and possible valued of the `message` field are unspecified.
+
+#### Example
+
+Successful handoff completion:
+
+```json
+{ "state" : "completed" }
 ```
 
-Agent hubs can implement this interface providing additional functionality. For example, an agent hub can support querying the length of the customer queue, which is not available for all agent hubs.
-Additionally, the handoff completion is signaled by the Handoff event, as shown below.
+Handoff operation failed due to a timeout:
 
-### Example
+```json
+{ "state" : "failed", "message" : "Cannot find agent with requested skill" }
+```
+
+#### Conversation
+
+`Conversation`is a REQUIRED field of type `ConversationAccount` describing the conversation that has been accepted or rejected. The `Id` of the conversation MUST be the same as in the HandoffInitiation that initiated the handoff.
+
+## Example
 
 ```C#
 protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
 {
     if (turnContext.Activity.Text.Contains("human"))
     {
-        await turnContext.SendActivityAsync("You will be transferred to a human agent. Sit tight.");
+        await turnContext.SendActivityAsync($"You have requested transfer to an agent");
 
-        var a1 = MessageFactory.Text($"first message");
-        var a2 = MessageFactory.Text($"second message");
-        var transcript = new Activity[] { a1, a2 };
+        var transcript = GetTranscript(); // defined elsewhere
         var context = new { Skill = "credit cards" };
-        var request = await turnContext.InitiateHandoffAsync(transcript, context, cancellationToken);
 
-        if (await request.IsCompletedAsync())
-        {
-            await turnContext.SendActivityAsync("Handoff request has been completed");
-        }
-        else
-        {
-            await turnContext.SendActivityAsync("Handoff request has NOT been completed");
-        }
+        var handoffEvent = EventFactory.CreateHandoffInitiation(turnContext, context, new Transcript(transcript));
+        await turnContext.SendActivityAsync(handoffEvent);
+
+        await turnContext.SendActivityAsync($"Agent transfer has been initiated");
+
     }
     else
     {
-        await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
+        // handle other utterances
     }
 }
-
-protected override async Task OnHandoffActivityAsync(ITurnContext<IHandoffActivity> turnContext, CancellationToken cancellationToken)
-{
-    var conversationId = turnContext.Activity.Conversation.Id;
-    await turnContext.SendActivityAsync($"Received Handoff ack for conversation {conversationId}");
-}
 ```
-
-## To try the library
-
-- Clone the repository
-
-    ```bash
-    https://github.com/microsoft/BotBuilder-Samples.git
-    ```
-- Build the solution
-
-- Deploy and run the Handoff bot
-
-- Using the DirectLine API, [start a conversation](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-start-conversation?view=azure-bot-service-4.0).
-
-- [Send a message](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-send-activity?view=azure-bot-service-4.0) to the bot containing the word 'human'
-
-- The bot should receive the handoff activity when the handoff has taken place

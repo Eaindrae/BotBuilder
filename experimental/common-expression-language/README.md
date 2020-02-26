@@ -8,7 +8,7 @@ Common expression language was put together to address this core need as well as
 
 See [here](./api-reference.md) for API reference.
 
-***_An expression is a sequence that can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../fileformats/lg/README.md#Template)._***
+***_An expression is a sequence that can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation)._***
 
 ## Operators
 
@@ -31,7 +31,7 @@ See [here](./api-reference.md) for API reference.
 |&	        |Concatenation operator. Operands will always be cast to string – E.g. A & B	            |N/A                                |
 |&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
 |\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
-|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[Not][8]                           |
+|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[not][8]                           |
 |'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
 |"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
 |[]	        |Used to refer to an item in a list by its index. E.g. A[3]	                                |N/A                                |
@@ -45,6 +45,9 @@ See [here](./api-reference.md) for API reference.
 Variables are always referenced by their name. E.g. @{myVariable}
 Variables can be complex objects. In which case they are referenced either using the property selector operator e.g. myParent.myVariable or using the item index selection operator. E.g. myParent.myList[0]. or using the [parameters](TODO) function. 
 
+There are two special variables, `[]` and  `{}`.
+`[]` represents an empty list, `{}` represents a empty object.
+
 ## Explicit values
 Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes - "myExplicitValue".
 
@@ -52,7 +55,7 @@ Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes
 See [Here](./prebuilt-functions.md) for a complete list of prebuilt functions supported by the common expression language library. 
 
 ## Packages
-Packages for C# are available under the [BotBuidler MyGet feed][15]
+Packages for C# are available under the [BotBuilder MyGet feed][15]
 
 ## Change Log
 ### 4.6 PREVIEW
