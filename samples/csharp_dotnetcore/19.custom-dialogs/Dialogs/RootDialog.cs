@@ -108,10 +108,28 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> ComposerAdaptiveDialog(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            return await stepContext.BeginDialogAsync("Main.dialog", null, cancellationToken);
+            var state = stepContext.GetState();
+
+            // inject some value into state from within waterfall dialog. This is consumed via adaptive dialog (in common.lg)
+            state.SetValue("user.injected", "'injected from waterfall'");
+            var resultFromAdaptiveDialog = stepContext.Result;
+            var options = new
+            {
+                result = resultFromAdaptiveDialog
+            };
+            return await stepContext.BeginDialogAsync("Main.dialog", options, cancellationToken);
         }
         private async Task<DialogTurnResult> StartDialogAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text())
+            var state = stepContext.GetState();
+            
+            var userScope = state.GetValue<object>("user");
+            var convScope = state.GetValue<object>("conversation");
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(userScope.ToString()));
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(convScope.ToString()));
+
             // Start the child dialog. This will run the top slot dialog than will complete when all the properties are gathered.
             return await stepContext.BeginDialogAsync("slot-dialog", null, cancellationToken);
         }

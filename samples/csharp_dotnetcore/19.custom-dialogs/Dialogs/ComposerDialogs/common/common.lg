@@ -6,10 +6,16 @@
 - how are you doing today? @{user.name}
 
 # bfdactivity-843726()
-- Sure, @{user.name} no worries. Happy to do that!
+- IF : @{user.name}
+    - Sure, @{user.name} no worries. Happy to do that!
+- ELSE : 
+    - Sure, no worries. Happy to do that! 
+
+# injectedReadBack()
+- I have this for injected value : @{coalesce(user.injected, 'null')}
 
 # bfdactivity-827174()
 [Activity
-    Text = I'm just a demo bot that shows composer integration.
+    Text = I'm just a demo bot that shows composer integration. I was called with @{dialog.result}. Have @{user.tempdata} in user scope and @{conversation.tempData} in conversation scope. @{injectedReadBack()}
     SuggestedActions = hi | stop
 ]

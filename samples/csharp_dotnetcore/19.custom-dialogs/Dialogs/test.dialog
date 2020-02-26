@@ -8,6 +8,25 @@
         {
           "$kind": "Microsoft.SendActivity",
           "activity":  "Test integration!"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "dialog.result",
+            "value": "'hello from adaptive'"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "user.tempData",
+            "value": "'test in user scope'"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "conversation.tempData",
+            "value": "'test in conv scope'"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "Returning @{dialog.result} to caller. Have @{user.tempdata} in user scope and @{conversation.tempData} in conversation scope."
         }
       ]
     }
