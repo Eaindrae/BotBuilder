@@ -1,15 +1,24 @@
 {
   "$schema": "../app.schema",
   "$kind": "Microsoft.AdaptiveDialog",
-  "triggers": [
-    {
-      "$kind": "Microsoft.OnUnknownIntent",
-      "actions": [
+    "triggers": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity":  "You said '@{turn.activity.text}'"
+            "$kind": "Microsoft.OnConversationUpdateActivity",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity":  "Hello!, send a message to get started!"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "You said '@{turn.activity.text}'"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
