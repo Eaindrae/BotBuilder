@@ -103,7 +103,8 @@
 
 # AdaptiveCard
 [Activity
-    Attachments = @{json(adaptivecardjson())}
+    Attachments = @{json(fromFile('../../../resources/multi-card.json')).cards}
+    AttachmentLayout = carousel
 ]
 
 # PassengerName
