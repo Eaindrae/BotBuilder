@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Autofac;
 using System.Threading;
+using System;
 
 namespace Microsoft.Bot.Sample.SimpleSandwichBot.Controllers
 {
@@ -53,16 +54,23 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot.Controllers
                     case ActivityTypes.EndOfConversation:
                         Trace.TraceInformation($"EndOfConversation: {activity}");
 
-                        // Clear the dialog stack if the root bot has ended the conversation.
-                        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                        try
                         {
-                            var botData = scope.Resolve<IBotData>();
-                            await botData.LoadAsync(default(CancellationToken));
+                            // Clear the dialog stack if the root bot has ended the conversation.
+                            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                            {
+                                var botData = scope.Resolve<IBotData>();
+                                await botData.LoadAsync(default(CancellationToken));
 
-                            var stack = scope.Resolve<IDialogStack>();
-                            stack.Reset();
+                                var stack = scope.Resolve<IDialogStack>();
+                                stack.Reset();
 
-                            await botData.FlushAsync(default(CancellationToken));
+                                await botData.FlushAsync(default(CancellationToken));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.TraceError(ex.Message);
                         }
 
                         break;

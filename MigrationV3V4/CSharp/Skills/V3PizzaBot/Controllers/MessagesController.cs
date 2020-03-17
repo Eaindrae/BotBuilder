@@ -14,6 +14,7 @@ using Microsoft.Bot.Connector.SkillAuthentication;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Autofac;
 using System.Threading;
+using System;
 
 namespace Microsoft.Bot.Sample.PizzaBot.Controllers
 {
@@ -80,18 +81,24 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                     case ActivityTypes.EndOfConversation:
                         Trace.TraceInformation($"EndOfConversation: {activity}");
 
-                        // Clear the dialog stack if the root bot has ended the conversation.
-                        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                        try
                         {
-                            var botData = scope.Resolve<IBotData>();
-                            await botData.LoadAsync(default(CancellationToken));
+                            // Clear the dialog stack if the root bot has ended the conversation.
+                            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                            {
+                                var botData = scope.Resolve<IBotData>();
+                                await botData.LoadAsync(default(CancellationToken));
 
-                            var stack = scope.Resolve<IDialogStack>();
-                            stack.Reset();
-
-                            await botData.FlushAsync(default(CancellationToken));
+                                var stack = scope.Resolve<IDialogStack>();
+                                stack.Reset();
+                                    
+                                await botData.FlushAsync(default(CancellationToken));
+                            }
                         }
-
+                        catch(Exception ex)
+                        {
+                            Trace.TraceError(ex.Message);
+                        }
                         break;
                     case ActivityTypes.ConversationUpdate:
                     case ActivityTypes.ContactRelationUpdate:
