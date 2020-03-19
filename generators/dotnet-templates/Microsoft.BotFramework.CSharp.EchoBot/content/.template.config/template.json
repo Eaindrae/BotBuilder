@@ -10,7 +10,7 @@
   "defaultName": "EchoBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EchoBot",
   "identity": "Microsoft.BotFramework.CSharp.EchoBot",
-  "name": "Bot Framework Echo Bot (v4.7.0)",
+  "name": "Bot Framework Echo Bot (v4.8.0)",
   "preferNameDirectory": true,
   "sourceName": "Microsoft.BotFramework.EchoBot",
   "shortName": "echobot",
@@ -24,7 +24,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "v4.7.0"
+        "value": "v4.8.0"
       },
       "replaces": "__vX.X.X__"
     },
@@ -44,6 +44,10 @@
       "datatype": "choice",
       "choices": [
         {
+          "choice": "netcoreapp3.1",
+          "description": "Target netcoreapp3.1"
+        },
+        {
           "choice": "netcoreapp2.2",
           "description": "Target netcoreapp2.2"
         },
@@ -53,7 +57,7 @@
         }
       ],
       "replaces": "__NETCOREAPP_VERSION__",
-      "defaultValue": "netcoreapp2.2"
+      "defaultValue": "netcoreapp3.1"
     },
     "AspCoreAssemblyVersion": {
       "type":"generated",
@@ -63,6 +67,10 @@
       "parameters": {
         "evaluator": "C++",
         "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp3.1\")",
+            "value": "'Microsoft.AspNetCore' Version='3.1.0'"
+          },
           {
             "condition": "(Framework==\"netcoreapp2.2\")",
             "value": "'Microsoft.AspNetCore' Version='2.2.0'"
@@ -74,8 +82,36 @@
         ]
       }
     },
-    "ReadmeNetCorePrereqVersion": {
+    "UseCore31":{
+      "type": "computed",
+      "dataType": "bool",
+      "value": "(Framework == \"netcoreapp3.1\")",
+      "defaultValue": "true"
+    },
+    "UseCore31NotUsed": {
       "type":"generated",
+      "generator": "switch",
+      "dataType": "bool",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp3.1\")",
+            "value": "true"
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.2\")",
+            "value": "false"
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.1\")",
+            "value": "false"
+          }
+        ]
+      }
+    },
+    "ReadmeNetCorePrereqVersion": {
+      "type": "generated",
       "generator": "switch",
       "dataType": "string",
       "replaces": "__NETCORE_VERSION__",
@@ -83,8 +119,12 @@
         "evaluator": "C++",
         "cases": [
           {
+            "condition": "(Framework==\"netcoreapp3.1\")",
+            "value": "3.1"
+          },
+          {
             "condition": "(Framework==\"netcoreapp2.2\")",
-            "value": "2.2"
+            "value": "2.2 (WARNING:  this version of .NET Core is at end of life.)"
           },
           {
             "condition": "(Framework==\"netcoreapp2.1\")",

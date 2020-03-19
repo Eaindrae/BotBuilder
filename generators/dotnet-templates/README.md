@@ -139,8 +139,10 @@ dotnet new corebot -n MyCoreBotWithTests --include-tests
 dotnet new emptybot -n MyEmptyBot
 ```
 
-## Overridding .NET Core 2.2 Dependencies
-The templates default to using .NET Core 2.2.x.  This can be overridden on the command line by using the `--framework` option. The current templates support `netcoreapp2.1` and `netcoreapp2.2` (the default).
+## Overridding .NET Core 3.1 Dependencies
+With the 4.8.x release of the Bot Framework SDK, all .NET samples now default to use .NET Core version 3.1.  In keeping with this change, the .NET Templates now default to using .NET Core 3.1.x.  This can be overridden on the command line by using the `--framework` option. The current templates support `netcoreapp2.1`, `netcoreapp2.2`, and `netcoreapp3.1` (the default).
+
+NOTE:  you can still generate a bot that uses .NET Core 2.2, but you will be generating a bot that will take a dependency on a .NET Core runtime version that is *end of life*.  To understand this and additional .NET Core runtime version information, refer to [Download .NET Core][60].
 
 Here are some different examples that show how to specify different .NET Core dependencies:
 
@@ -181,7 +183,7 @@ Once the Emulator is connected, you can interact with and receive messages from 
 It's often easier to develop the capabilities of your bot locally, and to use the Bot Framework Emulator to test your changes.
 
 ## Testing CoreBot
-If you use the `--include-tests` command line option when you generated a CoreBot.  The CoreBot template will generate two projects `CoreBot` and `CoreBot.Test`.  To run the CoreBot unit tests:
+If you use the `--include-tests` command line option when you generated a CoreBot, the CoreBot template will generate two projects `CoreBot` and `CoreBot.Test`.  To run the CoreBot unit tests:
 
 ```bash
 # build the CoreBot project
@@ -237,6 +239,49 @@ To uninstall the development build:
 dotnet new -u Microsoft.Bot.Framework.CSharp.EchoBot
 ```
 
+## How to Build and Test Locally
+This section outlines the steps to use in order to develop new features or implement bug fixes in the actual template codebase.  The steps required to build, install, tests, and uninstall a template build on your local development machine are similar to the steps required to install GA versions of templates from NuGet or daily build.  The difference is that you will install the template from your local machine instead of from one of the public registries.  The following is an example using the EchoBot template, but the steps apply to CoreBot and EmptyBot templates just the same.
+
+*NOTE:  the following assumes the ```BotBuilder-Samples``` repo has been cloned to ```~/Downloads/BotBuilder-Samples```*
+
+
+
+```bash
+# Change into the EchoBot template folder
+cd ~/Downloads/BotBuilder-Samples/generators/dotnet-templates/Microsoft.BotFramework.CSharp.EchoBot
+```
+
+Build a Nuget Package from your local folder
+```bash
+# package any changes made to the template
+# this will create a Microsoft.Bot.Framework.CSharp.EchoBot.4.x.x.nupkg
+nuget pack Microsoft.BotFramework.CSharp.EchoBot.nuspec
+```
+
+Install the local NuGet package
+```bash
+# Install the local nupkg
+dotnet new -i ./Microsoft.Bot.Framework.CSharp.EchoBot
+```
+
+To see a list of currently installed templates:
+```bash
+# list installed templates
+dotnet new --list
+```
+
+Generate a new EchoBot from the locally installed template
+```bash
+# Generate an Echo Bot from the local template
+dotnet new echobot -n MyEchoBot
+```
+
+Uninstall the previously installed local template
+```bash
+# Uninstall the local EchoBot template
+dotnet new -u Microsoft.Bot.Framework.CSharp.EchoBot
+```
+
 ## Logging Issues and Providing Feedback
 Issues and feedback about the .NET Core Templates can be submitted through the project's [GitHub Issues][12] page.
 
@@ -257,3 +302,4 @@ Issues and feedback about the .NET Core Templates can be submitted through the p
 [47]: https://aka.ms/cs-unit-test-docs
 [50]: https://aka.ms/azuredeployment
 [51]: https://botbuilder.myget.org/gallery/aitemplates
+[60]: https://dotnet.microsoft.com/download/dotnet-core
