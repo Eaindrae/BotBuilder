@@ -70,14 +70,9 @@ if (!endpointHostName.endsWith('/qnamaker')) {
     endpointHostName = endpointHostName + '/qnamaker';
 }
 
-const qnaService = new QnAMaker({
-    knowledgeBaseId: process.env.QnAKnowledgebaseId,
-    endpointKey: process.env.QnAEndpointKey,
-    host: endpointHostName
-});
 
 // Create the main dialog.
-const dialog = new RootDialog(qnaService);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, process.env.QnAEndpointHostName);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);
