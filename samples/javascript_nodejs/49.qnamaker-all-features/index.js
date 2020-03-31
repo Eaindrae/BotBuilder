@@ -61,15 +61,6 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-var endpointHostName = process.env.QnAEndpointHostName;
-if (!endpointHostName.startsWith('https://')) {
-    endpointHostName = 'https://' + endpointHostName;
-}
-
-if (!endpointHostName.endsWith('/qnamaker')) {
-    endpointHostName = endpointHostName + '/qnamaker';
-}
-
 
 // Create the main dialog.
 const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, process.env.QnAEndpointHostName);

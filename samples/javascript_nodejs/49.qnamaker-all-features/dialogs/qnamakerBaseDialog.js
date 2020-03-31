@@ -16,8 +16,6 @@ const {
 } = require('botbuilder-core');
 
 
-const { QnACardBuilder } = require('../utils/qnaCardBuilder');
-
 // Default parameters
 const DefaultThreshold = 0.3;
 const DefaultTopN = 3;
@@ -47,40 +45,10 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      */
     constructor(knowledgebaseId, authkey, host) {
         var noAnswer = ActivityFactory.DefaultNoAnswer;
-        super(knowledgebaseId, authkey, host, noAnswer);
+        var strictFilters = null;
+        super(knowledgebaseId, authkey, host, noAnswer, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
+        3, ActivityFactory.cardNoMatchResponse, strictFilters, QNAMAKER_BASE_DIALOG);
         this.id = QNAMAKER_BASE_DIALOG;
-    }
-
-    async GetQnAMakerOptions(dc)
-    {
-        console.log('GetQnAMakerOptions')
-        return new QnAMakerOptions
-        {
-            ScoreThreshold = DefaultThreshold,
-            Top = DefaultTopN,
-            QnAId = 0,
-            RankerType = "Default",
-            IsTest = false
-        };
-    }
-
-    async  GetQnAResponseOptions(dialogContext)
-    {
-        console.log('GetQnAResponseOptions');
-
-
-        var cardNoMatchResponse = new Activity(DefaultCardNoMatchResponse);
-
-        var responseOptions = new QnADialogResponseOptions
-        {
-            ActiveLearningCardTitle = DefaultCardTitle,
-            CardNoMatchText = DefaultCardNoMatchText,
-            NoAnswer = noAnswer,
-            CardNoMatchResponse = cardNoMatchResponse
-
-        };
-
-        return responseOptions;
     }
 
 }
