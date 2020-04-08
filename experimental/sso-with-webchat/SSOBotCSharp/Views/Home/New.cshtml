@@ -1,0 +1,19 @@
+﻿@model AuthTest.Models.ChatConfig
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="https://cdn.botframework.com/botframework-webchat/0.14.3-master.a939b18/botchat.css" rel="stylesheet" />
+<div id="bot" />
+<script src="https://cdn.botframework.com/botframework-webchat/0.14.3-master.a939b18/botchat.js"></script>
+<script>
+      BotChat.App({
+          directLine: {
+              secret: '@Model.Token',
+              domain: '@Model.Domain'
+          },
+        user: { id: 'userid' },
+        bot: { id: 'botid' },
+        resize: 'detect'
+      }, document.getElementById("bot"));
+</script>

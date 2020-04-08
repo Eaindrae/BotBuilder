@@ -1,0 +1,33 @@
+  <Target Name="BundleDirectlineExtensionArtifactsDebug" AfterTargets="Build" Condition="$(Configuration) == 'Debug'">
+    <Message Importance="High" Text="Bundling DirectLine Extension Artifacts started...." />
+    <ItemGroup>
+      <DeleteOldBuildFiles Include="$(OutputPath)\Artifacts\*" />
+    </ItemGroup>
+    <Delete Files="@(DeleteOldBuildFiles)" />
+    <MakeDir Directories="$(OutputPath)\Artifacts\bin" Condition="!Exists('$(OutputPath)\Artifacts\bin')" />
+    <ItemGroup>
+      <ExtensionBuildFiles Include="$(OutputPath)*.dll" />
+      <BuiltArtifacts Include="$(OutputPath)\Artifacts\bin\$(Version)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ExtensionBuildFiles)" DestinationFiles="@(ExtensionBuildFiles->'$(OutputPath)\Artifacts\bin\$(Version)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="$(OutputPath)Microsoft.DirectLineExtension.runtimeconfig.json" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\Microsoft.DirectLineExtension.runtimeconfig.json" />
+    <Copy SourceFiles="$(OutputPath)Microsoft.DirectLineExtension.deps.json" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\Microsoft.DirectLineExtension.deps.json" />
+    <Copy SourceFiles="$(OutputPath)applicationHost.xdt" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\applicationHost.xdt" />
+    <Copy SourceFiles="extension.xml" DestinationFiles="$(OutputPath)\Artifacts\bin\extension.xml" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
+    <Copy SourceFiles="web.debug.config" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\web.config" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
+    <Copy SourceFiles="$(NuGetPackageRoot)\microsoft.applicationinsights\2.9.1\lib\netstandard1.3\Microsoft.ApplicationInsights.dll" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\Microsoft.ApplicationInsights.dll" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
+    <Copy SourceFiles="$(NuGetPackageRoot)\microsoft.bot.streaming\4.6.3\lib\netstandard2.0\Microsoft.Bot.Streaming.dll" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\Microsoft.Bot.Streaming.dll" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
+    <ItemGroup>
+      <FinalArtifactsZip Include="$(OutputPath)\Artifacts\bin" />
+    </ItemGroup>
+    <Exec Command="git rev-parse HEAD > $(OutputPath)\head" />
+    <ReadLinesFromFile File="$(OutputPath)\head">
+      <Output TaskParameter="Lines" PropertyName="Head" />
+    </ReadLinesFromFile>
+    <Copy SourceFiles="$(OutputPath)head" DestinationFiles="$(OutputPath)\Artifacts\bin\$(Version)\git-head.txt" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
+    <ZipDirectory SourceDirectory="@(FinalArtifactsZip)" DestinationFile="$(OutputPath)Artifacts\DirectLine.$(Version).$(Head).zip" />
+    <Message Importance="High" Text="Cleaning build files" />
+    <RemoveDir Directories="$(OutputPath)\Artifacts\$(Version)" />
+    <RemoveDir Directories="$(OutputPath)\Artifacts\bin" />
+    <Message Importance="High" Text="Bundling DirectLine Extension Artifacts completed!" />
+  </Target>
